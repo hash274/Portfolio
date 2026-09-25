@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="uk" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bohdan Fastovets — UI/UX Designer</title>
+<meta name="description" content="Bohdan Fastovets — UI/UX дизайнер. Дизайн лендінгів та веб-сайтів для стартапів і малого бізнесу.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --max-width: 1760px;
+  --font-head: 'Inter Tight', Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+  --accent: #ff7a45;
+  --accent2: #ff3d1a;
+}
+
+/* Dark theme (default) */
+html[data-theme="dark"] {
+  --bg: #0a0a0a;
+  --surface: #121212;
+  --text: #f5f5f2;
+  --muted: #9a9a9a;
+  --border: #262626;
+}
+
+/* Light theme */
+html[data-theme="light"] {
+  --bg: #ffffff;
+  --surface: #f7f7f7;
+  --text: #0d0d0d;
+  --muted: #6d6d6d;
+  --border: #e6e6e6;
+}
+
+* { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  /* fluid base size: scales every rem-based value with the viewport width */
+  font-size: clamp(15px, 0.85vw + 11px, 18px);
+}
+
+body {
+  margin: 0;
+  width: 100%;
+  overflow-x: hidden;
+  font-family: var(--font-head);
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.55;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+@media (pointer: fine) {
+  body { cursor: none; }
+  a, button { cursor: none; }
+}
+
+.cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 18px;
+  height: 18px;
+  margin: -9px 0 0 -9px;
+  border-radius: 50%;
+  background: var(--accent);
+  mix-blend-mode: difference;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0;
+  filter: blur(0px);
+  transform: translate3d(-100px, -100px, 0) scale(1);
+  transition: transform 0.15s ease-out, opacity 0.2s ease, filter 0.12s ease-out;
+}
+
+.cursor-dot.is-visible { opacity: 1; }
+
+.container {
+  max-width: min(var(--max-width), 98vw);
+  margin: 0 auto;
+  padding: 0 clamp(1rem, 3vw, 2rem);
+}
+
+a { color: inherit; text-decoration: none; }
+
+.label {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.label::before {
+  content: "";
+  width: 0.375rem;
+  height: 0.375rem;
+  background: var(--accent);
+  display: inline-block;
+}
+
+/* HEADER */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  background: color-mix(in srgb, var(--bg) 85%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+  z-index: 50;
+}
+
+.header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+  height: 4.5rem;
+}
+
+.logo {
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  font-size: 1.125rem;
+}
+
+.nav {
+  display: flex;
+  gap: 1.75rem;
+}
+
+.nav a {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.75rem;
+  color: var(--text);
+  transition: color 0.15s ease;
+}
+
+.nav a:hover { color: var(--accent); }
+
+.header__right {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+}
+
+.lang-switch {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.lang-btn {
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  padding: 0.3125rem 0.5625rem;
+  cursor: pointer;
+  border-radius: 999px;
+}
+
+.lang-btn.is-active {
+  background: var(--text);
+  color: var(--bg);
+  border-color: var(--text);
+}
+
+/* THEME TOGGLE */
+.theme-toggle {
+  position: relative;
+  width: 3.25rem;
+  height: 1.75rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  cursor: pointer;
+  padding: 0.125rem;
+  display: flex;
+  align-items: center;
+}
+
+.theme-toggle__thumb {
+  width: 1.375rem;
+  height: 1.375rem;
+  border-radius: 50%;
+  background: var(--text);
+  color: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  transition: transform 0.25s ease;
+  transform: translateX(0);
+}
+
+html[data-theme="light"] .theme-toggle__thumb {
+  transform: translateX(1.5rem);
+}
+
+/* BUTTONS */
+.btn {
+  display: inline-block;
+  padding: 0.875rem 1.75rem;
+  border-radius: 999px;
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 0.875rem;
+  border: 1.5px solid var(--text);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn--primary {
+  background: var(--text);
+  color: var(--bg);
+}
+
+.btn--primary:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+.btn--ghost {
+  background: transparent;
+  color: var(--text);
+}
+
+.btn--ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+.btn--small {
+  padding: 0.5625rem 1.125rem;
+  font-size: 0.75rem;
+}
+
+/* HERO / BANNER WITH GRADIENT */
+.banner {
+  position: relative;
+  overflow: hidden;
+  padding-top: 4.5rem;
+  background: var(--bg);
+}
+
+.gradient-blob {
+  position: absolute;
+  inset: -30%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  filter: blur(80px) saturate(150%);
+  mix-blend-mode: screen;
+}
+
+html[data-theme="dark"] .gradient-blob { opacity: 0.85; mix-blend-mode: screen; }
+html[data-theme="light"] .gradient-blob { opacity: 0.55; mix-blend-mode: multiply; }
+
+.gradient-blob span {
+  position: absolute;
+  border-radius: 50%;
+  will-change: transform;
+}
+
+.gradient-blob span:nth-child(1) {
+  width: 65%;
+  height: 65%;
+  top: -8%;
+  left: -6%;
+  background: radial-gradient(circle, var(--accent2) 0%, transparent 65%);
+  animation: wave1 17s ease-in-out infinite;
+}
+
+.gradient-blob span:nth-child(2) {
+  width: 60%;
+  height: 60%;
+  top: 18%;
+  left: 42%;
+  background: radial-gradient(circle, var(--accent) 0%, transparent 65%);
+  animation: wave2 23s ease-in-out infinite;
+}
+
+.gradient-blob span:nth-child(3) {
+  width: 55%;
+  height: 55%;
+  top: 38%;
+  left: 6%;
+  background: radial-gradient(circle, #ffb27a 0%, transparent 65%);
+  animation: wave3 29s ease-in-out infinite;
+}
+
+.gradient-blob span:nth-child(4) {
+  width: 45%;
+  height: 45%;
+  top: 5%;
+  left: 55%;
+  background: radial-gradient(circle, var(--accent2) 0%, transparent 65%);
+  animation: wave2 20s ease-in-out infinite reverse;
+}
+
+@keyframes wave1 {
+  0%, 100% { transform: translate(0%, 0%) scale(1); }
+  25%      { transform: translate(18%, 12%) scale(1.25); }
+  50%      { transform: translate(6%, 24%) scale(0.9); }
+  75%      { transform: translate(-14%, 8%) scale(1.1); }
+}
+
+@keyframes wave2 {
+  0%, 100% { transform: translate(0%, 0%) scale(1); }
+  30%      { transform: translate(-20%, 14%) scale(1.15); }
+  60%      { transform: translate(-8%, -18%) scale(0.85); }
+  85%      { transform: translate(12%, -6%) scale(1.05); }
+}
+
+@keyframes wave3 {
+  0%, 100% { transform: translate(0%, 0%) scale(1); }
+  20%      { transform: translate(14%, -14%) scale(1.1); }
+  50%      { transform: translate(22%, 6%) scale(1.3); }
+  80%      { transform: translate(-10%, 16%) scale(0.95); }
+}
+
+.hero {
+  position: relative;
+  z-index: 1;
+  padding: 6.25rem 1.5rem 4.5rem;
+}
+
+.hero__profile {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.hero__avatar-wrap {
+  position: relative;
+  width: 244px;
+  height: 244px;
+  flex-shrink: 0;
+}
+
+.hero__avatar {
+  position: absolute;
+  inset: 0;
+  width: 244px;
+  height: 244px;
+  border-radius: 0.25rem;
+  object-fit: cover;
+  display: block;
+  transition: opacity 0.3s ease;
+}
+
+.hero__avatar--hover {
+  opacity: 0;
+}
+
+.hero__avatar-wrap:hover .hero__avatar--default {
+  opacity: 0;
+}
+
+.hero__avatar-wrap:hover .hero__avatar--hover {
+  opacity: 1;
+}
+
+.hero__profile-role {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.6875rem;
+  color: var(--muted);
+  margin: 0 0 0.2rem;
+}
+
+.hero__profile-name {
+  font-weight: 700;
+  font-size: 0.9375rem;
+  margin: 0;
+}
+
+.hero__eyebrow {
+  color: var(--muted);
+  margin-bottom: 0;
+}
+
+.hero__headline {
+  font-family: var(--font-head);
+  font-size: 22.5px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.12;
+  max-width: 51.25rem;
+  margin: 1.5rem 0 2rem;
+}
+
+.hero__actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* INTRO STRIP */
+.intro {
+  padding: 4rem 1.5rem;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.intro__text {
+  font-size: 1.25rem;
+  max-width: 47.5rem;
+  color: var(--muted);
+  margin: 0 0 1.75rem;
+}
+
+/* SECTIONS */
+.section {
+  padding: 5.5rem 1.5rem;
+}
+
+.section--bordered { border-top: 1px solid var(--border); }
+
+.section__title {
+  font-size: clamp(1.5rem, 1rem + 1.6vw, 1.875rem);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  margin: 0 0 2.75rem;
+}
+
+/* CASES */
+.cases__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(17.5rem, 1fr));
+  gap: 1.75rem;
+}
+
+.case__cover {
+  aspect-ratio: 4 / 3;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  margin-bottom: 1.125rem;
+}
+
+.case h3 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin: 0 0 0.625rem;
+}
+
+.case__tags {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+}
+
+/* MID CTA */
+.midcta {
+  position: relative;
+  overflow: hidden;
+  padding: 5rem 1.5rem;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  text-align: center;
+}
+
+.midcta__content { position: relative; z-index: 1; }
+
+.midcta h2 {
+  font-size: clamp(1.625rem, 4vw, 2.5rem);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  margin: 0 0 1rem;
+}
+
+.midcta p {
+  color: var(--muted);
+  max-width: 32.5rem;
+  margin: 0 auto 1.75rem;
+}
+
+/* SERVICES */
+.services__list {
+  display: grid;
+  gap: 0;
+}
+
+.service {
+  display: grid;
+  grid-template-columns: 1.4fr 0.7fr 1.8fr 0.8fr;
+  gap: 1.25rem;
+  align-items: start;
+  padding: 1.75rem 0;
+  border-top: 1px solid var(--border);
+}
+
+.service:last-child { border-bottom: 1px solid var(--border); }
+
+.service h3 {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.service__meta {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.service p {
+  font-size: 0.875rem;
+  color: var(--muted);
+  margin: 0;
+}
+
+.service__price {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 0.9375rem;
+  text-align: right;
+  color: var(--accent);
+}
+
+/* CONTACT */
+.contact__pitch {
+  color: var(--muted);
+  max-width: 32.5rem;
+  margin-bottom: 2rem;
+}
+
+.contact__form {
+  display: grid;
+  gap: 1rem;
+  max-width: 30rem;
+}
+
+.contact__form label {
+  display: grid;
+  gap: 0.375rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+.contact__form input,
+.contact__form textarea {
+  font-family: var(--font-head);
+  font-size: 0.9375rem;
+  padding: 0.75rem 0.875rem;
+  border: 1.5px solid var(--border);
+  border-radius: 0.25rem;
+  color: var(--text);
+  background: var(--surface);
+  resize: vertical;
+}
+
+.contact__form input:focus,
+.contact__form textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.contact__form-note {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--muted);
+  margin: 0;
+}
+
+.contact__alt {
+  margin-top: 1.5rem;
+  font-size: 0.875rem;
+  color: var(--muted);
+  display: flex;
+  gap: 0.5rem;
+}
+
+.contact__alt a {
+  text-decoration: underline;
+  color: var(--text);
+}
+
+.contact__alt a:hover { color: var(--accent); }
+
+/* FOOTER */
+.footer {
+  padding: 2rem 1.5rem 3rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+  border-top: 1px solid var(--border);
+}
+
+@media (max-width: 720px) {
+  .nav { display: none; }
+  .service {
+    grid-template-columns: 1fr;
+    gap: 0.375rem;
+  }
+  .service__price { text-align: left; }
+}
+</style>
+</head>
+<body>
+
+<div class="cursor-dot" id="cursor-dot" aria-hidden="true"></div>
+
+<header class="header">
+  <div class="container header__inner">
+    <a href="#top" class="logo">BF</a>
+
+    <nav class="nav">
+      <a href="#cases" data-i18n="nav_cases">Портфоліо</a>
+      <a href="#services" data-i18n="nav_services">Послуги</a>
+      <a href="#contact" data-i18n="nav_contact">Контакти</a>
+    </nav>
+
+    <div class="header__right">
+      <div class="lang-switch" role="group" aria-label="Language switch">
+        <button type="button" data-lang="uk" class="lang-btn is-active">UA</button>
+        <button type="button" data-lang="en" class="lang-btn">EN</button>
+        <button type="button" data-lang="pl" class="lang-btn">PL</button>
+      </div>
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+        <span class="theme-toggle__thumb" id="theme-toggle-thumb">☾</span>
+      </button>
+      <a href="#contact" class="btn btn--primary btn--small" data-i18n="header_cta">Обговорити проєкт</a>
+    </div>
+  </div>
+</header>
+
+<div class="banner">
+  <div class="gradient-blob" aria-hidden="true">
+    <span></span><span></span><span></span><span></span>
+  </div>
+
+  <main id="top">
+    <!-- HERO -->
+    <section class="hero container">
+      <div class="hero__profile">
+        <div class="hero__avatar-wrap">
+          <img src="avatar.png" alt="Bohdan Fastovets" class="hero__avatar hero__avatar--default">
+          <img src="avatar-hover.png" alt="Bohdan Fastovets" class="hero__avatar hero__avatar--hover">
+        </div>
+        <div>
+          <p class="hero__profile-name">Bohdan Fastovets</p>
+        </div>
+      </div>
+      <p class="label hero__eyebrow" data-i18n="hero_eyebrow">UI/UX дизайнер</p>
+      <h1 class="hero__headline" data-i18n="hero_headline">
+        Проектую сайти для стартапів, малого й середнього бізнесу
+      </h1>
+      <div class="hero__actions">
+        <a href="#cases" class="btn btn--primary" data-i18n="hero_cta_primary">Дивитися роботи</a>
+        <a href="#contact" class="btn btn--ghost" data-i18n="hero_cta_secondary">Написати</a>
+      </div>
+    </section>
+  </main>
+</div>
+
+<main>
+  <!-- INTRO -->
+  <section class="intro container">
+    <p class="intro__text" data-i18n="intro_text">
+      У цьому портфоліо — реальні проєкти. Розбираюся, яку мету переслідує бізнес,
+      і будую дизайн навколо неї: зрозуміла структура, чіткі акценти, продуманий шлях користувача.
+      Без інтеграції платежів — тільки дизайн сайту під ключ, готовий для розробки.
+    </p>
+    <a href="#contact" class="btn btn--ghost btn--small" data-i18n="intro_cta">Зв'язатися зі мною</a>
+  </section>
+
+  <!-- CASES -->
+  <section id="cases" class="section container">
+    <h2 class="section__title label" data-i18n="cases_title">Мої останні роботи</h2>
+
+    <div class="cases__grid">
+
+      <article class="case">
+        <div class="case__cover"><span data-i18n="case_cover_label">Зображення кейсу</span></div>
+        <h3 data-i18n="case1_title">Лендінг для стартапу</h3>
+        <p class="case__tags" data-i18n="case1_tags">/UI-UX/FIGMA/ЛЕНДІНГ/</p>
+      </article>
+
+      <article class="case">
+        <div class="case__cover"><span data-i18n="case_cover_label">Зображення кейсу</span></div>
+        <h3 data-i18n="case2_title">Сайт для малого бізнесу</h3>
+        <p class="case__tags" data-i18n="case2_tags">/UI-UX/ВЕРСТКА/HTML/</p>
+      </article>
+
+      <article class="case">
+        <div class="case__cover"><span data-i18n="case_cover_label">Зображення кейсу</span></div>
+        <h3 data-i18n="case3_title">UX сервісу бронювання</h3>
+        <p class="case__tags" data-i18n="case3_tags">/UX-ДОСЛІДЖЕННЯ/ПРОТОТИП/</p>
+      </article>
+
+      <article class="case">
+        <div class="case__cover"><span data-i18n="case_cover_label">Зображення кейсу</span></div>
+        <h3 data-i18n="case4_title">Редизайн сайту компанії</h3>
+        <p class="case__tags" data-i18n="case4_tags">/UI-UX/РЕДИЗАЙН/FIGMA/</p>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- MID CTA -->
+  <section class="midcta">
+    <div class="gradient-blob" aria-hidden="true">
+      <span></span><span></span><span></span><span></span>
+    </div>
+    <div class="container midcta__content">
+      <h2 data-i18n="midcta_title">Давайте просто поговоримо про ваш сайт</h2>
+      <p data-i18n="midcta_text">Залиште заявку, і я зв'яжуся з вами, щоб обговорити ідеї, бюджет і терміни.</p>
+      <a href="#contact" class="btn btn--primary" data-i18n="midcta_cta">Залишити заявку</a>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services" class="section container">
+    <h2 class="section__title label" data-i18n="services_title">Чим я можу допомогти</h2>
+
+    <div class="services__list">
+      <div class="service">
+        <h3 data-i18n="service1_title">Дизайн лендінгу</h3>
+        <span class="service__meta" data-i18n="service1_time">7–14 днів</span>
+        <p data-i18n="service1_desc">Односторінковий сайт із чітким закликом до дії: лендінг продукту, візитка спеціаліста, сторінка події.</p>
+        <span class="service__price" data-i18n="service1_price">Від $300</span>
+      </div>
+      <div class="service">
+        <h3 data-i18n="service2_title">Веб-дизайн</h3>
+        <span class="service__meta" data-i18n="service2_time">15–25 днів</span>
+        <p data-i18n="service2_desc">Багатосторінковий сайт із розгорнутою структурою й навігацією: корпоративний сайт, портфоліо, інформаційний портал.</p>
+        <span class="service__price" data-i18n="service2_price">Від $550</span>
+      </div>
+      <div class="service">
+        <h3 data-i18n="service3_title">UX-дослідження та прототипування</h3>
+        <span class="service__meta" data-i18n="service3_time">5–10 днів</span>
+        <p data-i18n="service3_desc">Аналіз користувачів, wireframes, перевірка гіпотез перед розробкою.</p>
+        <span class="service__price" data-i18n="service3_price">Від $100</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="section container section--bordered">
+    <h2 class="section__title label" data-i18n="contact_title">Розкажіть про свій проєкт</h2>
+    <p class="contact__pitch" data-i18n="contact_pitch">
+      Я зв'яжуся з вами протягом 24 годин, щоб обговорити концепцію і терміни.
+    </p>
+
+    <form class="contact__form" id="contact-form">
+      <label>
+        <span data-i18n="form_name">Ім'я</span>
+        <input type="text" name="name" required>
+      </label>
+      <label>
+        <span data-i18n="form_email">Email</span>
+        <input type="email" name="email" required>
+      </label>
+      <label>
+        <span data-i18n="form_message">Повідомлення</span>
+        <textarea name="message" rows="5" required></textarea>
+      </label>
+      <button type="submit" class="btn btn--primary" data-i18n="form_submit">Надіслати</button>
+      <p class="contact__form-note" id="contact-form-note" data-i18n="form_note">
+        Форма відкриє поштовий клієнт із заповненим листом.
+      </p>
+    </form>
+
+    <div class="contact__alt">
+      <span data-i18n="contact_or">або</span>
+      <!-- TODO: замінити на реальний профіль Instagram -->
+      <a href="https://instagram.com/your_handle" target="_blank" rel="noopener" data-i18n="contact_instagram">
+        Написати в Instagram
+      </a>
+    </div>
+  </section>
+</main>
+
+<footer class="footer container">
+  <p>&copy; <span id="year"></span> Bohdan Fastovets</p>
+</footer>
+
+<script>
+// Translations for UA / EN / PL
+const translations = {
+  uk: {
+    nav_cases: "Портфоліо",
+    nav_services: "Послуги",
+    nav_contact: "Контакти",
+    header_cta: "Обговорити проєкт",
+    hero_eyebrow: "UI/UX дизайнер",
+    hero_profile_role: "UI/UX дизайнер",
+    hero_headline: "Проектую сайти для малого й середнього бізнесу, спеціалістів та підприємців.",
+    hero_cta_primary: "Дивитися роботи",
+    hero_cta_secondary: "Написати",
+    intro_text: "У цьому портфоліо — реальні проєкти. Розбираюся, яку мету переслідує бізнес, і будую дизайн навколо неї: зрозуміла структура, чіткі акценти, продуманий шлях користувача. Без інтеграції платежів — тільки дизайн сайту, готовий для розробки.",
+    intro_cta: "Зв'язатися зі мною",
+    cases_title: "Мої останні роботи",
+    case_cover_label: "Зображення кейсу",
+    case1_title: "Лендінг для стартапу",
+    case1_tags: "/UI-UX/FIGMA/ЛЕНДІНГ/",
+    case2_title: "Сайт для малого бізнесу",
+    case2_tags: "/UI-UX/ВЕРСТКА/HTML/",
+    case3_title: "UX сервісу бронювання",
+    case3_tags: "/UX-ДОСЛІДЖЕННЯ/ПРОТОТИП/",
+    case4_title: "Редизайн сайту компанії",
+    case4_tags: "/UI-UX/РЕДИЗАЙН/FIGMA/",
+    midcta_title: "Давайте просто поговоримо про ваш сайт",
+    midcta_text: "Залиште заявку, і я зв'яжуся з вами, щоб обговорити ідеї, бюджет і терміни.",
+    midcta_cta: "Залишити заявку",
+    services_title: "Чим я можу допомогти",
+    service1_title: "Дизайн лендінгу",
+    service1_time: "7–14 днів",
+    service1_desc: "Односторінковий сайт із чітким закликом до дії: лендінг продукту, візитка спеціаліста, сторінка події.",
+    service1_price: "Від $300",
+    service2_title: "Веб-дизайн",
+    service2_time: "15–25 днів",
+    service2_desc: "Багатосторінковий сайт із розгорнутою структурою й навігацією: корпоративний сайт, портфоліо, інформаційний портал.",
+    service2_price: "Від $550",
+    service3_title: "UX-дослідження та прототипування",
+    service3_time: "5–10 днів",
+    service3_desc: "Аналіз користувачів, wireframes, перевірка гіпотез перед розробкою.",
+    service3_price: "Від $100",
+    contact_title: "Розкажіть про свій проєкт",
+    contact_pitch: "Я зв'яжуся з вами протягом 24 годин, щоб обговорити концепцію і терміни.",
+    form_name: "Ім'я",
+    form_email: "Email",
+    form_message: "Повідомлення",
+    form_submit: "Надіслати",
+    form_note: "Форма відкриє поштовий клієнт із заповненим листом.",
+    contact_or: "або",
+    contact_instagram: "Написати в Instagram"
+  },
+  en: {
+    nav_cases: "Portfolio",
+    nav_services: "Services",
+    nav_contact: "Contact",
+    header_cta: "Discuss a project",
+    hero_eyebrow: "UI/UX Designer",
+    hero_profile_role: "UI/UX Designer",
+    hero_headline: "I design websites for small and medium businesses, specialists and entrepreneurs",
+    hero_cta_primary: "View works",
+    hero_cta_secondary: "Get in touch",
+    intro_text: "This portfolio contains real projects. I dig into the business goal and build the design around it: clear structure, clear accents, a well-thought-out user journey. No payment integrations — just website design, ready for development.",
+    intro_cta: "Get in touch",
+    cases_title: "Recent works",
+    case_cover_label: "Case image",
+    case1_title: "Landing page for a startup",
+    case1_tags: "/UI-UX/FIGMA/LANDING/",
+    case2_title: "Website for a small business",
+    case2_tags: "/UI-UX/MARKUP/HTML/",
+    case3_title: "UX for a booking service",
+    case3_tags: "/UX-RESEARCH/PROTOTYPE/",
+    case4_title: "Company website redesign",
+    case4_tags: "/UI-UX/REDESIGN/FIGMA/",
+    midcta_title: "Let's just talk about your website",
+    midcta_text: "Leave a request and I'll get in touch to discuss ideas, budget and timeline.",
+    midcta_cta: "Leave a request",
+    services_title: "How I can help",
+    service1_title: "Landing page design",
+    service1_time: "7–14 days",
+    service1_desc: "A single-page site with a clear call to action: a product landing, an expert's page, an event page.",
+    service1_price: "From $300",
+    service2_title: "Web design",
+    service2_time: "15–25 days",
+    service2_desc: "A multi-page site with a full structure and navigation: a corporate site, portfolio, information portal.",
+    service2_price: "From $550",
+    service3_title: "UX research & prototyping",
+    service3_time: "5–10 days",
+    service3_desc: "User research, wireframes, testing hypotheses before development.",
+    service3_price: "From $100",
+    contact_title: "Tell me about your project",
+    contact_pitch: "I'll reply within 24 hours to discuss the concept and timeline.",
+    form_name: "Name",
+    form_email: "Email",
+    form_message: "Message",
+    form_submit: "Send",
+    form_note: "The form will open your mail client with a prefilled message.",
+    contact_or: "or",
+    contact_instagram: "Message on Instagram"
+  },
+  pl: {
+    nav_cases: "Portfolio",
+    nav_services: "Usługi",
+    nav_contact: "Kontakt",
+    header_cta: "Omówmy projekt",
+    hero_eyebrow: "UI/UX Designer",
+    hero_profile_role: "UI/UX Designer",
+    hero_headline: "projektuję strony dla małych i średnich firm, specjalistów i przedsiębiorców",
+    hero_cta_primary: "Zobacz prace",
+    hero_cta_secondary: "Napisz do mnie",
+    intro_text: "To portfolio zawiera realne projekty. Analizuję cel biznesowy i buduję wokół niego projekt: czytelną strukturę, wyraźne akcenty, przemyślaną ścieżkę użytkownika. Bez integracji płatności — wyłącznie projekt strony, gotowy do wdrożenia.",
+    intro_cta: "Napisz do mnie",
+    cases_title: "Ostatnie prace",
+    case_cover_label: "Zdjęcie case study",
+    case1_title: "Landing page dla startupu",
+    case1_tags: "/UI-UX/FIGMA/LANDING/",
+    case2_title: "Strona dla małej firmy",
+    case2_tags: "/UI-UX/WERSTKA/HTML/",
+    case3_title: "UX serwisu rezerwacji",
+    case3_tags: "/BADANIA-UX/PROTOTYP/",
+    case4_title: "Redesign strony firmowej",
+    case4_tags: "/UI-UX/REDESIGN/FIGMA/",
+    midcta_title: "Porozmawiajmy o Twojej stronie",
+    midcta_text: "Zostaw zgłoszenie, a skontaktuję się, aby omówić pomysły, budżet i terminy.",
+    midcta_cta: "Zostaw zgłoszenie",
+    services_title: "W czym mogę pomóc",
+    service1_title: "Projekt landing page",
+    service1_time: "7–14 dni",
+    service1_desc: "Strona jednostronicowa z wyraźnym wezwaniem do działania: landing produktu, wizytówka eksperta, strona wydarzenia.",
+    service1_price: "Od $300",
+    service2_title: "Projekt strony www",
+    service2_time: "15–25 dni",
+    service2_desc: "Strona wielostronicowa z rozbudowaną strukturą i nawigacją: strona firmowa, portfolio, portal informacyjny.",
+    service2_price: "Od $550",
+    service3_title: "Badania UX i prototypowanie",
+    service3_time: "5–10 dni",
+    service3_desc: "Analiza użytkowników, wireframes, weryfikacja hipotez przed wdrożeniem.",
+    service3_price: "Od $100",
+    contact_title: "Opowiedz o swoim projekcie",
+    contact_pitch: "Odpowiem w ciągu 24 godzin, aby omówić koncepcję i terminy.",
+    form_name: "Imię",
+    form_email: "Email",
+    form_message: "Wiadomość",
+    form_submit: "Wyślij",
+    form_note: "Formularz otworzy klienta poczty z gotową wiadomością.",
+    contact_or: "lub",
+    contact_instagram: "Napisz na Instagramie"
+  }
+};
+
+const STORAGE_KEY = "bf-lang";
+const THEME_KEY = "bf-theme";
+
+function applyLanguage(lang) {
+  const dict = translations[lang] || translations.uk;
+  document.querySelectorAll("[data-i18n]").forEach((el) => {
+    const key = el.getAttribute("data-i18n");
+    if (dict[key]) el.textContent = dict[key];
+  });
+  document.documentElement.lang = lang;
+  document.querySelectorAll(".lang-btn").forEach((btn) => {
+    btn.classList.toggle("is-active", btn.dataset.lang === lang);
+  });
+  localStorage.setItem(STORAGE_KEY, lang);
+}
+
+document.querySelectorAll(".lang-btn").forEach((btn) => {
+  btn.addEventListener("click", () => applyLanguage(btn.dataset.lang));
+});
+
+const savedLang = localStorage.getItem(STORAGE_KEY) || "uk";
+applyLanguage(savedLang);
+
+// Theme toggle: dark by default, switchable to light.
+const themeToggle = document.getElementById("theme-toggle");
+const themeThumb = document.getElementById("theme-toggle-thumb");
+
+function applyTheme(theme) {
+  document.documentElement.setAttribute("data-theme", theme);
+  themeThumb.textContent = theme === "dark" ? "☾" : "☀";
+  localStorage.setItem(THEME_KEY, theme);
+}
+
+const savedTheme = localStorage.getItem(THEME_KEY) || "dark";
+applyTheme(savedTheme);
+
+themeToggle.addEventListener("click", () => {
+  const current = document.documentElement.getAttribute("data-theme");
+  applyTheme(current === "dark" ? "light" : "dark");
+});
+
+// Contact form: build a mailto link with the entered data.
+// TODO: replace RECIPIENT_EMAIL with a real address, or swap this for a form backend (e.g. Formspree).
+const RECIPIENT_EMAIL = "your@email.com";
+
+const contactForm = document.getElementById("contact-form");
+if (contactForm) {
+  contactForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const data = new FormData(contactForm);
+    const name = data.get("name") || "";
+    const email = data.get("email") || "";
+    const message = data.get("message") || "";
+    const subject = encodeURIComponent(`Заявка з сайту від ${name}`);
+    const body = encodeURIComponent(`Ім'я: ${name}\nEmail: ${email}\n\n${message}`);
+    window.location.href = `mailto:${RECIPIENT_EMAIL}?subject=${subject}&body=${body}`;
+  });
+}
+
+const yearEl = document.getElementById("year");
+if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+// Scramble-text reveal: headings decode from random characters into their final
+// text once they scroll into view (matches Desktop1.mp4 reference).
+const SCRAMBLE_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&*";
+
+function scrambleReveal(el, duration = 900) {
+  const original = el.textContent;
+  const length = original.length;
+  const startTime = performance.now();
+
+  function frame(now) {
+    const progress = Math.min((now - startTime) / duration, 1);
+    const revealCount = Math.floor(progress * length);
+    let out = "";
+    for (let i = 0; i < length; i++) {
+      if (i < revealCount || original[i] === " " || original[i] === "\n") {
+        out += original[i];
+      } else {
+        out += SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
+      }
+    }
+    el.textContent = out;
+    if (progress < 1) {
+      requestAnimationFrame(frame);
+    } else {
+      el.textContent = original;
+    }
+  }
+
+  requestAnimationFrame(frame);
+}
+
+const scrambleTargets = document.querySelectorAll(
+  ".hero__headline, .section__title, .midcta h2, .case h3, .service h3"
+);
+
+if ("IntersectionObserver" in window) {
+  const scrambleObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        scrambleReveal(entry.target);
+        scrambleObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.4 });
+
+  scrambleTargets.forEach((el) => scrambleObserver.observe(el));
+}
+
+// Custom cursor: an orange dot that follows the pointer and scales up over clickable elements.
+const cursorDot = document.getElementById("cursor-dot");
+if (cursorDot && window.matchMedia("(pointer: fine)").matches) {
+  let hovering = false;
+  let lastX = 0;
+  let lastY = 0;
+  let lastTime = performance.now();
+  let blurResetTimer = null;
+
+  document.addEventListener("mousemove", (e) => {
+    cursorDot.classList.add("is-visible");
+
+    const now = performance.now();
+    const dt = Math.max(now - lastTime, 1);
+    const distance = Math.hypot(e.clientX - lastX, e.clientY - lastY);
+    const speed = distance / dt; // px per ms
+    const blur = Math.min(speed * 6, 8);
+
+    cursorDot.style.filter = `blur(${blur}px)`;
+    clearTimeout(blurResetTimer);
+    blurResetTimer = setTimeout(() => { cursorDot.style.filter = "blur(0px)"; }, 80);
+
+    const scale = hovering ? 1.5 : 1;
+    cursorDot.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0) scale(${scale})`;
+
+    lastX = e.clientX;
+    lastY = e.clientY;
+    lastTime = now;
+  });
+
+  document.addEventListener("mouseleave", () => {
+    cursorDot.classList.remove("is-visible");
+  });
+
+  const hoverTargets = "a, button, input, textarea, .btn, .lang-btn, .theme-toggle";
+  document.addEventListener("mouseover", (e) => {
+    if (e.target.closest(hoverTargets)) hovering = true;
+  });
+  document.addEventListener("mouseout", (e) => {
+    if (e.target.closest(hoverTargets)) hovering = false;
+  });
+}
+</script>
+</body>
+</html>
