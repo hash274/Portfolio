@@ -444,6 +444,7 @@ html[data-theme="light"] .gradient-blob { opacity: 0.55; mix-blend-mode: multipl
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 0.25rem;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -452,6 +453,184 @@ html[data-theme="light"] .gradient-blob { opacity: 0.55; mix-blend-mode: multipl
   font-size: 0.75rem;
   text-transform: uppercase;
   margin-bottom: 1.125rem;
+}
+
+.case__cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.case__cover:hover img,
+.case__cover:focus-visible img { transform: scale(1.08); }
+
+.case__open {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.case__cover.case__open { border: 1px solid var(--border); }
+
+.case__description-open:hover { color: var(--accent); }
+
+.case-modal {
+  width: min(92vw, 1200px);
+  max-width: none;
+  max-height: 92vh;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 0.25rem;
+  background: var(--surface);
+  color: var(--text);
+}
+
+.case-modal[open] { animation: case-modal-enter 320ms cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+.case-modal[open]::backdrop { animation: case-backdrop-enter 320ms ease both; }
+.case-modal.is-closing { animation: case-modal-exit 180ms ease-in both; }
+.case-modal.is-closing::backdrop { animation: case-backdrop-exit 180ms ease-in both; }
+
+@keyframes case-modal-enter {
+  from { opacity: 0; transform: translateY(1rem) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes case-modal-exit {
+  from { opacity: 1; transform: translateY(0) scale(1); }
+  to { opacity: 0; transform: translateY(0.5rem) scale(0.98); }
+}
+
+@keyframes case-backdrop-enter {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes case-backdrop-exit {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+.case-modal::backdrop { background: rgb(0 0 0 / 82%); }
+
+.case-modal .cursor-dot {
+  z-index: 10000;
+  mix-blend-mode: normal;
+}
+
+.case-modal__header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.case-modal__control {
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1px solid var(--border);
+  border-radius: 0.25rem;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 1.25rem;
+  cursor: pointer;
+}
+
+.case-modal__control:hover { border-color: var(--accent); color: var(--accent); }
+
+.case-modal__close {
+  margin-left: auto;
+  font-size: 1.5rem;
+}
+
+.case-modal__viewport {
+  position: relative;
+  min-height: 12rem;
+  max-height: calc(92vh - 5rem);
+  overflow: auto;
+  text-align: center;
+}
+
+.case-modal__loader {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: none;
+  min-height: 12rem;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+}
+
+.case-modal__viewport.is-loading .case-modal__loader { display: flex; }
+.case-modal__viewport.is-loading > :not(.case-modal__loader) { visibility: hidden; }
+
+.case-modal__loader-square {
+  position: relative;
+  width: 4rem;
+  height: 4rem;
+  background: var(--accent);
+  animation: case-loader-spin 1.1s cubic-bezier(0.6, 0, 0.4, 1) infinite;
+}
+
+.case-modal__loader-square::after {
+  position: absolute;
+  inset: 0.75rem;
+  background: #111;
+  content: "";
+  animation: case-loader-pulse 0.7s ease-in-out infinite alternate;
+}
+
+@keyframes case-loader-spin {
+  0% { transform: rotate(0) scale(0.82); }
+  50% { transform: rotate(180deg) scale(1); }
+  100% { transform: rotate(360deg) scale(0.82); }
+}
+
+@keyframes case-loader-pulse {
+  from { transform: scale(0.65); opacity: 0.6; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.case-modal__image {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
+.case-modal__placeholder {
+  display: flex;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  text-transform: uppercase;
+}
+
+.case-modal__viewport [hidden] { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .case-modal[open],
+  .case-modal[open]::backdrop,
+  .case-modal.is-closing,
+  .case-modal.is-closing::backdrop { animation-duration: 1ms; }
+  .case-modal__loader-square,
+  .case-modal__loader-square::after { animation: none; }
 }
 
 .case h3 {
@@ -694,31 +873,54 @@ html[data-theme="light"] .gradient-blob { opacity: 0.55; mix-blend-mode: multipl
     <div class="cases__grid">
 
       <article class="case">
-        <div class="case__cover"><span data-i18n="case_cover_label">Зображення кейсу</span></div>
+        <button class="case__cover case__open" type="button" aria-haspopup="dialog" aria-controls="case-modal">
+          <span data-i18n="case_cover_label">Зображення кейсу</span>
+        </button>
         <h3 data-i18n="case1_title">Лендінг для стартапу</h3>
         <p class="case__tags" data-i18n="case1_tags">/UI-UX/FIGMA/ЛЕНДІНГ/</p>
       </article>
 
       <article class="case">
-        <div class="case__cover"><span data-i18n="case_cover_label">Зображення кейсу</span></div>
-        <h3 data-i18n="case2_title">Сайт для малого бізнесу</h3>
-        <p class="case__tags" data-i18n="case2_tags">/UI-UX/ВЕРСТКА/HTML/</p>
+        <button class="case__cover case__open" type="button" aria-haspopup="dialog" aria-controls="case-modal">
+          <img src="УкрТехніка.jpg" data-modal-src="УкрТехніка.png" alt="Сайт УкрТехніка">
+        </button>
+        <h3><button class="case__open case__description-open" type="button" aria-haspopup="dialog" aria-controls="case-modal" data-i18n="case2_title">Сайт для малого бізнесу</button></h3>
+        <p class="case__tags"><button class="case__open case__description-open" type="button" aria-haspopup="dialog" aria-controls="case-modal" data-i18n="case2_tags">/UI-UX/ВЕРСТКА/HTML/</button></p>
       </article>
 
       <article class="case">
-        <div class="case__cover"><span data-i18n="case_cover_label">Зображення кейсу</span></div>
+        <button class="case__cover case__open" type="button" aria-haspopup="dialog" aria-controls="case-modal">
+          <img src="UX.jpg" data-modal-src="UX.png" alt="UX сервісу бронювання">
+        </button>
         <h3 data-i18n="case3_title">UX сервісу бронювання</h3>
         <p class="case__tags" data-i18n="case3_tags">/UX-ДОСЛІДЖЕННЯ/ПРОТОТИП/</p>
       </article>
 
       <article class="case">
-        <div class="case__cover"><span data-i18n="case_cover_label">Зображення кейсу</span></div>
+        <button class="case__cover case__open" type="button" aria-haspopup="dialog" aria-controls="case-modal">
+          <span data-i18n="case_cover_label">Зображення кейсу</span>
+        </button>
         <h3 data-i18n="case4_title">Редизайн сайту компанії</h3>
         <p class="case__tags" data-i18n="case4_tags">/UI-UX/РЕДИЗАЙН/FIGMA/</p>
       </article>
 
     </div>
   </section>
+
+  <dialog class="case-modal" id="case-modal" aria-label="Перегляд зображення кейсу">
+    <div class="case-modal__header">
+      <button class="case-modal__control" id="case-zoom-out" type="button" aria-label="Зменшити зображення" title="Зменшити">−</button>
+      <button class="case-modal__control" id="case-zoom-in" type="button" aria-label="Збільшити зображення" title="Збільшити">+</button>
+      <button class="case-modal__control case-modal__close" id="case-modal-close" type="button" aria-label="Закрити" title="Закрити">×</button>
+    </div>
+    <div class="case-modal__viewport">
+      <div class="case-modal__loader" role="status" aria-label="Завантаження">
+        <span class="case-modal__loader-square" aria-hidden="true"></span>
+      </div>
+      <img class="case-modal__image" id="case-modal-image" alt="" hidden>
+      <div class="case-modal__placeholder" id="case-modal-placeholder" hidden></div>
+    </div>
+  </dialog>
 
   <!-- MID CTA -->
   <section class="midcta">
@@ -986,6 +1188,97 @@ applyTheme(savedTheme);
 themeToggle.addEventListener("click", () => {
   const current = document.documentElement.getAttribute("data-theme");
   applyTheme(current === "dark" ? "light" : "dark");
+});
+
+const caseModal = document.getElementById("case-modal");
+const caseModalImage = document.getElementById("case-modal-image");
+const caseModalPlaceholder = document.getElementById("case-modal-placeholder");
+const caseModalViewport = document.querySelector(".case-modal__viewport");
+const caseZoomIn = document.getElementById("case-zoom-in");
+const caseZoomOut = document.getElementById("case-zoom-out");
+let caseZoom = 1;
+let caseModalClosing = false;
+let caseModalLoadId = 0;
+
+function updateCaseZoom() {
+  const zoomTarget = caseModalImage.hidden ? caseModalPlaceholder : caseModalImage;
+  zoomTarget.style.width = `${caseZoom * 100}%`;
+}
+
+document.querySelectorAll(".case__open").forEach((openButton) => {
+  openButton.addEventListener("click", () => {
+    const cover = openButton.closest(".case").querySelector(".case__cover");
+    const previewImage = cover.querySelector("img");
+    if (previewImage) {
+      caseModalImage.src = previewImage.dataset.modalSrc || previewImage.currentSrc || previewImage.src;
+      caseModalImage.alt = previewImage.alt;
+      caseModalImage.hidden = false;
+      caseModalPlaceholder.hidden = true;
+    } else {
+      caseModalPlaceholder.textContent = cover.textContent.trim();
+      caseModalPlaceholder.hidden = false;
+      caseModalImage.hidden = true;
+    }
+    caseModalViewport.classList.add("is-loading");
+    const loadId = ++caseModalLoadId;
+    const imageReady = previewImage && typeof caseModalImage.decode === "function"
+      ? caseModalImage.decode().catch(() => {})
+      : Promise.resolve();
+    Promise.all([
+      new Promise((resolve) => window.setTimeout(resolve, 550)),
+      imageReady
+    ]).then(() => {
+      if (loadId === caseModalLoadId) caseModalViewport.classList.remove("is-loading");
+    });
+    caseZoom = 1;
+    caseModalImage.style.width = "";
+    caseModalPlaceholder.style.width = "";
+    updateCaseZoom();
+    caseModalClosing = false;
+    caseModal.classList.remove("is-closing");
+    caseModal.showModal();
+    caseModal.append(document.getElementById("cursor-dot"));
+  });
+});
+
+function closeCaseModal() {
+  if (!caseModal.open || caseModalClosing) return;
+  caseModalClosing = true;
+  caseModalLoadId += 1;
+  caseModal.classList.add("is-closing");
+}
+
+document.getElementById("case-modal-close").addEventListener("click", closeCaseModal);
+
+caseModal.addEventListener("animationend", (event) => {
+  if (event.target === caseModal && event.animationName === "case-modal-exit") {
+    caseModal.close();
+  }
+});
+
+caseModal.addEventListener("cancel", (event) => {
+  event.preventDefault();
+  closeCaseModal();
+});
+
+caseZoomIn.addEventListener("click", () => {
+  caseZoom = Math.min(caseZoom + 0.25, 3);
+  updateCaseZoom();
+});
+
+caseZoomOut.addEventListener("click", () => {
+  caseZoom = Math.max(caseZoom - 0.25, 0.5);
+  updateCaseZoom();
+});
+
+caseModal.addEventListener("click", (event) => {
+  if (event.target === caseModal) closeCaseModal();
+});
+
+caseModal.addEventListener("close", () => {
+  caseModal.classList.remove("is-closing");
+  caseModalClosing = false;
+  document.body.append(document.getElementById("cursor-dot"));
 });
 
 // Contact form: build a mailto link with the entered data.
