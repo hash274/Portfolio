@@ -440,7 +440,7 @@ html[data-theme="light"] .gradient-blob { opacity: 0.55; mix-blend-mode: multipl
 }
 
 .case__cover {
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 1 / 1;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 0.25rem;
@@ -477,7 +477,27 @@ html[data-theme="light"] .gradient-blob { opacity: 0.55; mix-blend-mode: multipl
   cursor: pointer;
 }
 
-.case__cover.case__open { border: 1px solid var(--border); }
+.case__cover.case__open {
+  position: relative;
+  border: 1px solid var(--border);
+}
+
+.case__cover.case__open::after {
+  content: "Відкрити";
+  position: absolute;
+  right: 0.75rem;
+  bottom: 0.75rem;
+  z-index: 1;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.2rem;
+  background: var(--accent);
+  color: #0a0a0a;
+  font-family: var(--font-head);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: none;
+  pointer-events: none;
+}
 
 .case__description-open:hover { color: var(--accent); }
 
@@ -890,7 +910,7 @@ html[data-theme="light"] .gradient-blob { opacity: 0.55; mix-blend-mode: multipl
 
       <article class="case">
         <button class="case__cover case__open" type="button" aria-haspopup="dialog" aria-controls="case-modal">
-          <img src="UX.jpg" data-modal-src="UX.png" alt="UX сервісу бронювання">
+          <img src="UXi.jpg" data-modal-src="UXi.png" alt="UX сервісу бронювання">
         </button>
         <h3 data-i18n="case3_title">UX сервісу бронювання</h3>
         <p class="case__tags" data-i18n="case3_tags">/UX-ДОСЛІДЖЕННЯ/ПРОТОТИП/</p>
@@ -898,7 +918,7 @@ html[data-theme="light"] .gradient-blob { opacity: 0.55; mix-blend-mode: multipl
 
       <article class="case">
         <button class="case__cover case__open" type="button" aria-haspopup="dialog" aria-controls="case-modal">
-          <span data-i18n="case_cover_label">Зображення кейсу</span>
+          <img src="Редизайн сайту компанії.jpg" data-modal-src="Редизайн сайту компанії.png" alt="Редизайн сайту компанії">
         </button>
         <h3 data-i18n="case4_title">Редизайн сайту компанії</h3>
         <p class="case__tags" data-i18n="case4_tags">/UI-UX/РЕДИЗАЙН/FIGMA/</p>
