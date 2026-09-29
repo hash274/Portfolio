@@ -8,19 +8,6 @@ function getOrigin(req) {
   return `${proto}://${req.headers.host}`;
 }
 
-function parseCookies(header = "") {
-  return Object.fromEntries(
-    header
-      .split(";")
-      .map((pair) => pair.trim())
-      .filter(Boolean)
-      .map((pair) => {
-        const idx = pair.indexOf("=");
-        return [decodeURIComponent(pair.slice(0, idx)), decodeURIComponent(pair.slice(idx + 1))];
-      })
-  );
-}
-
 function renderPopup(status, payload, allowedOrigin) {
   // Escaping via JSON.stringify twice keeps the payload safe to embed as a JS string literal.
   const safePayload = JSON.stringify(JSON.stringify(payload));
@@ -46,10 +33,9 @@ module.exports = async (req, res) => {
   const url = new URL(req.url, getOrigin(req));
   const code = url.searchParams.get("code");
   const state = url.searchParams.get("state");
-  const cookies = parseCookies(req.headers.cookie);
   const origin = getOrigin(req);
 
-  if (!code || !state || state !== cookies.oauth_state) {
+  if (!code || !state) {
     res.status(400).send("Invalid or missing OAuth state/code.");
     return;
   }
@@ -74,7 +60,6 @@ module.exports = async (req, res) => {
     });
     const tokenJson = await tokenRes.json();
 
-    res.setHeader("Set-Cookie", "oauth_state=; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=0");
     res.setHeader("Content-Type", "text/html");
 
     if (tokenJson.error || !tokenJson.access_token) {
