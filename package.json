@@ -1,0 +1,9 @@
+{
+  "name": "bohdan-fastovets-portfolio",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Static portfolio site with a Decap CMS admin panel backed by a Vercel serverless GitHub OAuth relay.",
+  "engines": {
+    "node": ">=18"
+  }
+}
