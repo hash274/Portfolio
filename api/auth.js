@@ -30,11 +30,6 @@ module.exports = (req, res) => {
   authorizeUrl.searchParams.set("scope", "repo,user");
   authorizeUrl.searchParams.set("state", state);
 
-  // HttpOnly cookie used to validate the "state" param on /api/callback (CSRF protection).
-  res.setHeader(
-    "Set-Cookie",
-    `oauth_state=${state}; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=600`
-  );
   res.redirect
     ? res.redirect(302, authorizeUrl.toString())
     : (res.statusCode = 302, res.setHeader("Location", authorizeUrl.toString()), res.end());
