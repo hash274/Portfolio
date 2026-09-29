@@ -1,0 +1,58 @@
+# Decap CMS config — edits /data.json (portfolio + service prices) via the GitHub API.
+#
+# BACKEND CHOICE: "github" vs "git-gateway"
+# ------------------------------------------
+# "git-gateway" needs Netlify Identity + the Netlify Git Gateway proxy running in
+# front of the repo — it only works when the site (or at least its Identity/Git
+# Gateway service) is hosted on Netlify. This project is deployed on Vercel, so
+# git-gateway is not available here.
+# "github" talks to the GitHub API directly using an OAuth access token. Decap
+# cannot safely obtain that token from pure client-side JS (it would require
+# exposing the GitHub OAuth App's client secret in the browser), so it delegates
+# the "code -> token" exchange to a small external OAuth provider — see
+# base_url/auth_endpoint below, implemented as Vercel Serverless Functions in /api.
+backend:
+  name: github
+  repo: YOUR_GITHUB_USERNAME/YOUR_REPO_NAME # TODO: set to "owner/repo"
+  branch: main
+  # Our own OAuth provider (Vercel functions), NOT Netlify's. See /api/auth.js and
+  # /api/callback.js. base_url must be the deployed site origin.
+  base_url: https://YOUR-PROJECT.vercel.app # TODO: set to your Vercel domain
+  auth_endpoint: api/auth
+
+# Where uploaded images are committed to and how they are referenced from data.json.
+# Kept at the repo root so paths like "Лендінг.jpg" (already used in data.json)
+# keep working unchanged. Move both to e.g. "images" if you'd rather tidy things up.
+media_folder: ""
+public_folder: "/"
+
+publish_mode: simple
+
+collections:
+  - name: "site_data"
+    label: "Дані сайту"
+    files:
+      - file: "data.json"
+        name: "data"
+        label: "Портфоліо та ціни"
+        fields:
+          - label: "Портфоліо"
+            name: "portfolio"
+            widget: "list"
+            summary: "{{title}} — {{price}}{{currency}}"
+            fields:
+              - { label: "ID (не змінювати)", name: "id", widget: "string" }
+              - { label: "Назва роботи", name: "title", widget: "string" }
+              - { label: "Опис / теги", name: "description", widget: "string", required: false }
+              - { label: "Ціна", name: "price", widget: "number", value_type: "int", min: 0 }
+              - { label: "Валюта", name: "currency", widget: "string", default: "$" }
+              - { label: "Фото (обкладинка)", name: "image", widget: "image" }
+              - { label: "Фото (повний розмір у модалці)", name: "imageFull", widget: "image", required: false }
+          - label: "Ціни послуг"
+            name: "services"
+            widget: "list"
+            summary: "{{id}} — {{price}}{{currency}}"
+            fields:
+              - { label: "ID (не змінювати)", name: "id", widget: "string" }
+              - { label: "Ціна", name: "price", widget: "number", value_type: "int", min: 0 }
+              - { label: "Валюта", name: "currency", widget: "string", default: "$" }
