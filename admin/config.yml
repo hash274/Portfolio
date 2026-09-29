@@ -17,7 +17,7 @@ backend:
   branch: main
   # Our own OAuth provider (Vercel functions), NOT Netlify's. See /api/auth.js and
   # /api/callback.js. base_url must be the deployed site origin.
-  base_url: https://YOUR-PROJECT.vercel.app # TODO: set to your Vercel domain
+  base_url: https://asdfasdfd.xyz # TODO: set to your Vercel domain
   auth_endpoint: api/auth
 
 # Where uploaded images are committed to and how they are referenced from data.json.
