@@ -1,0 +1,13 @@
+{
+  "portfolio": [
+    { "id": "case1", "cover": "Лендінг.jpg", "full": "Лендінг.png", "alt": "Лендінг для стартапу" },
+    { "id": "case2", "cover": "УкрТехніка.jpg", "full": "УкрТехніка.png", "alt": "Сайт УкрТехніка" },
+    { "id": "case3", "cover": "UXi.jpg", "full": "UXi.png", "alt": "UX сервісу бронювання" },
+    { "id": "case4", "cover": "Редизайн сайту компанії.jpg", "full": "Редизайн сайту компанії.png", "alt": "Редизайн сайту компанії" }
+  ],
+  "services": [
+    { "id": "service1", "price": 300, "currency": "$" },
+    { "id": "service2", "price": 550, "currency": "$" },
+    { "id": "service3", "price": 100, "currency": "$" }
+  ]
+}
