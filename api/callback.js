@@ -3,40 +3,14 @@
 // and hands it back to the Decap CMS popup window via postMessage, following the
 // message protocol Decap/Netlify CMS's "github" backend expects.
 
-function getOrigin(req) {
-  const proto = req.headers["x-forwarded-proto"] || "https";
-  return `${proto}://${req.headers.host}`;
-}
-
-function renderPopup(status, payload, allowedOrigin) {
-  // Escaping via JSON.stringify twice keeps the payload safe to embed as a JS string literal.
-  const safePayload = JSON.stringify(JSON.stringify(payload));
-  const safeOrigin = JSON.stringify(allowedOrigin);
-  return `<!DOCTYPE html>
-<html><body>
-<script>
-(function () {
-  var allowedOrigin = ${safeOrigin};
-  function receiveMessage(e) {
-    if (e.origin !== allowedOrigin) return;
-    window.opener.postMessage("authorization:github:${status}:" + ${safePayload}, e.origin);
-    window.removeEventListener("message", receiveMessage, false);
-  }
-  window.addEventListener("message", receiveMessage, false);
-  window.opener.postMessage("authorizing:github", allowedOrigin);
-})();
-</script>
-</body></html>`;
-}
-
 module.exports = async (req, res) => {
-  const url = new URL(req.url, getOrigin(req));
+  const proto = req.headers["x-forwarded-proto"] || "https";
+  const origin = `${proto}://${req.headers.host}`;
+  const url = new URL(req.url, origin);
   const code = url.searchParams.get("code");
-  const state = url.searchParams.get("state");
-  const origin = getOrigin(req);
 
-  if (!code || !state) {
-    res.status(400).send("Invalid or missing OAuth state/code.");
+  if (!code) {
+    res.status(400).send("Missing code");
     return;
   }
 
@@ -60,17 +34,32 @@ module.exports = async (req, res) => {
     });
     const tokenJson = await tokenRes.json();
 
-    res.setHeader("Content-Type", "text/html");
-
-    if (tokenJson.error || !tokenJson.access_token) {
-      res
-        .status(400)
-        .send(renderPopup("error", { message: tokenJson.error_description || "OAuth error" }, origin));
+    if (!tokenJson.access_token) {
+      res.status(400).send("No access_token in GitHub response: " + JSON.stringify(tokenJson));
       return;
     }
 
-    res.status(200).send(renderPopup("success", { token: tokenJson.access_token, provider: "github" }, origin));
+    const content = { token: tokenJson.access_token, provider: "github" };
+
+    const script = `
+      <script>
+        (function() {
+          function receiveMessage(e) {
+            window.opener.postMessage(
+              'authorization:github:success:${JSON.stringify(content)}',
+              e.origin
+            );
+            window.removeEventListener("message", receiveMessage, false);
+          }
+          window.addEventListener("message", receiveMessage, false);
+          window.opener.postMessage("authorizing:github", "*");
+        })();
+      </script>
+    `;
+
+    res.setHeader("Content-Type", "text/html");
+    res.status(200).send(`<html><body>${script}</body></html>`);
   } catch (err) {
-    res.status(500).send(renderPopup("error", { message: "OAuth token exchange failed" }, origin));
+    res.status(500).send("OAuth error: " + err.message);
   }
 };
