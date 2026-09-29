@@ -5,15 +5,6 @@
 //   OAUTH_GITHUB_CLIENT_ID     - GitHub OAuth App client ID
 //   OAUTH_GITHUB_CLIENT_SECRET - GitHub OAuth App client secret (used in /api/callback)
 
-function getOrigin(req) {
-  const proto = req.headers["x-forwarded-proto"] || "https";
-  return `${proto}://${req.headers.host}`;
-}
-
-function randomState() {
-  return Array.from({ length: 20 }, () => Math.floor(Math.random() * 36).toString(36)).join("");
-}
-
 module.exports = (req, res) => {
   const clientId = process.env.OAUTH_GITHUB_CLIENT_ID;
   if (!clientId) {
@@ -21,16 +12,15 @@ module.exports = (req, res) => {
     return;
   }
 
-  const state = randomState();
-  const redirectUri = `${getOrigin(req)}/api/callback`;
+  const proto = req.headers["x-forwarded-proto"] || "https";
+  const origin = `${proto}://${req.headers.host}`;
+  const redirectUri = `${origin}/api/callback`;
 
   const authorizeUrl = new URL("https://github.com/login/oauth/authorize");
   authorizeUrl.searchParams.set("client_id", clientId);
   authorizeUrl.searchParams.set("redirect_uri", redirectUri);
   authorizeUrl.searchParams.set("scope", "repo,user");
-  authorizeUrl.searchParams.set("state", state);
 
-  res.redirect
-    ? res.redirect(302, authorizeUrl.toString())
-    : (res.statusCode = 302, res.setHeader("Location", authorizeUrl.toString()), res.end());
+  res.writeHead(302, { Location: authorizeUrl.toString() });
+  res.end();
 };
