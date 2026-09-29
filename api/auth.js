@@ -35,6 +35,7 @@ module.exports = (req, res) => {
     "Set-Cookie",
     `oauth_state=${state}; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=600`
   );
-  res.writeHead(302, { Location: authorizeUrl.toString() });
-  res.end();
+  res.redirect
+    ? res.redirect(302, authorizeUrl.toString())
+    : (res.statusCode = 302, res.setHeader("Location", authorizeUrl.toString()), res.end());
 };
