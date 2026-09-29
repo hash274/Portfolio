@@ -4,8 +4,8 @@
       "id": "case1",
       "title": "Лендінг для стартапу",
       "description": "/UI-UX/FIGMA/ЛЕНДІНГ/",
-      "price": 300,
-      "currency": "$",
+      "price": null,
+      "currency": "",
       "image": "Лендінг.jpg",
       "imageFull": "Лендінг.png"
     },
@@ -13,8 +13,8 @@
       "id": "case2",
       "title": "Сайт для малого бізнесу",
       "description": "/UI-UX/ВЕРСТКА/HTML/",
-      "price": 450,
-      "currency": "$",
+      "price": null,
+      "currency": "",
       "image": "УкрТехніка.jpg",
       "imageFull": "УкрТехніка.png"
     },
@@ -22,8 +22,8 @@
       "id": "case3",
       "title": "UX сервісу бронювання",
       "description": "/UX-ДОСЛІДЖЕННЯ/ПРОТОТИП/",
-      "price": 200,
-      "currency": "$",
+      "price": null,
+      "currency": "",
       "image": "UXi.jpg",
       "imageFull": "UXi.png"
     },
@@ -31,8 +31,8 @@
       "id": "case4",
       "title": "Редизайн сайту компанії",
       "description": "/UI-UX/РЕДИЗАЙН/FIGMA/",
-      "price": 500,
-      "currency": "$",
+      "price": null,
+      "currency": "",
       "image": "Редизайн сайту компанії.jpg",
       "imageFull": "Редизайн сайту компанії.png"
     }
