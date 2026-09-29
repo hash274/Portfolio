@@ -1,9 +1,41 @@
 {
   "portfolio": [
-    { "id": "case1", "cover": "Лендінг.jpg", "full": "Лендінг.png", "alt": "Лендінг для стартапу" },
-    { "id": "case2", "cover": "УкрТехніка.jpg", "full": "УкрТехніка.png", "alt": "Сайт УкрТехніка" },
-    { "id": "case3", "cover": "UXi.jpg", "full": "UXi.png", "alt": "UX сервісу бронювання" },
-    { "id": "case4", "cover": "Редизайн сайту компанії.jpg", "full": "Редизайн сайту компанії.png", "alt": "Редизайн сайту компанії" }
+    {
+      "id": "case1",
+      "title": "Лендінг для стартапу",
+      "description": "/UI-UX/FIGMA/ЛЕНДІНГ/",
+      "price": 300,
+      "currency": "$",
+      "image": "Лендінг.jpg",
+      "imageFull": "Лендінг.png"
+    },
+    {
+      "id": "case2",
+      "title": "Сайт для малого бізнесу",
+      "description": "/UI-UX/ВЕРСТКА/HTML/",
+      "price": 450,
+      "currency": "$",
+      "image": "УкрТехніка.jpg",
+      "imageFull": "УкрТехніка.png"
+    },
+    {
+      "id": "case3",
+      "title": "UX сервісу бронювання",
+      "description": "/UX-ДОСЛІДЖЕННЯ/ПРОТОТИП/",
+      "price": 200,
+      "currency": "$",
+      "image": "UXi.jpg",
+      "imageFull": "UXi.png"
+    },
+    {
+      "id": "case4",
+      "title": "Редизайн сайту компанії",
+      "description": "/UI-UX/РЕДИЗАЙН/FIGMA/",
+      "price": 500,
+      "currency": "$",
+      "image": "Редизайн сайту компанії.jpg",
+      "imageFull": "Редизайн сайту компанії.png"
+    }
   ],
   "services": [
     { "id": "service1", "price": 300, "currency": "$" },
