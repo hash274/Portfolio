@@ -1040,7 +1040,10 @@ const translations = {
     form_email: "Email",
     form_message: "Повідомлення",
     form_submit: "Надіслати",
-    form_note: "Форма відкриє поштовий клієнт із заповненим листом.",
+    form_note: "Заявка буде надіслана через форму.",
+    form_sending: "Надсилаю заявку...",
+    form_success: "Дякую! Заявку надіслано.",
+    form_error: "Не вдалося надіслати заявку. Спробуйте ще раз.",
     contact_or: "або",
     contact_instagram: "Написати в Instagram"
   },
@@ -1086,7 +1089,10 @@ const translations = {
     form_email: "Email",
     form_message: "Message",
     form_submit: "Send",
-    form_note: "The form will open your mail client with a prefilled message.",
+    form_note: "Your request will be submitted through this form.",
+    form_sending: "Sending your request...",
+    form_success: "Thank you! Your request has been sent.",
+    form_error: "Could not send your request. Please try again.",
     contact_or: "or",
     contact_instagram: "Message on Instagram"
   },
@@ -1132,7 +1138,10 @@ const translations = {
     form_email: "Email",
     form_message: "Wiadomość",
     form_submit: "Wyślij",
-    form_note: "Formularz otworzy klienta poczty z gotową wiadomością.",
+    form_note: "Zgłoszenie zostanie wysłane przez ten formularz.",
+    form_sending: "Wysyłanie zgłoszenia...",
+    form_success: "Dziękuję! Zgłoszenie zostało wysłane.",
+    form_error: "Nie udało się wysłać zgłoszenia. Spróbuj ponownie.",
     contact_or: "lub",
     contact_instagram: "Napisz na Instagramie"
   }
@@ -1337,21 +1346,31 @@ caseModal.addEventListener("close", () => {
   document.body.append(document.getElementById("cursor-dot"));
 });
 
-// Contact form: build a mailto link with the entered data.
-// TODO: replace RECIPIENT_EMAIL with a real address, or swap this for a form backend (e.g. Formspree).
-const RECIPIENT_EMAIL = "your@email.com";
-
 const contactForm = document.getElementById("contact-form");
 if (contactForm) {
-  contactForm.addEventListener("submit", (e) => {
+  const formNote = document.getElementById("contact-form-note");
+  const submitButton = contactForm.querySelector('[type="submit"]');
+
+  contactForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const data = new FormData(contactForm);
-    const name = data.get("name") || "";
-    const email = data.get("email") || "";
-    const message = data.get("message") || "";
-    const subject = encodeURIComponent(`Заявка з сайту від ${name}`);
-    const body = encodeURIComponent(`Ім'я: ${name}\nEmail: ${email}\n\n${message}`);
-    window.location.href = `mailto:${RECIPIENT_EMAIL}?subject=${subject}&body=${body}`;
+    const dict = translations[currentLang] || translations.uk;
+    formNote.textContent = dict.form_sending;
+    submitButton.disabled = true;
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(Object.fromEntries(new FormData(contactForm))),
+      });
+      if (!response.ok) throw new Error("Contact submission failed");
+      contactForm.reset();
+      formNote.textContent = dict.form_success;
+    } catch (error) {
+      formNote.textContent = dict.form_error;
+    } finally {
+      submitButton.disabled = false;
+    }
   });
 }
 
