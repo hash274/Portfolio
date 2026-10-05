@@ -13,7 +13,7 @@
     {
       "id": "case2",
       "title": "Сайт для малого бізнесу",
-      "description": "/UI-UX/ВЕРСТКА/HTML/",
+      "description": "/UI-UX/ВЕРСТКА/HTML/UKRtehnika",
       "price": 1500,
       "currency": "+$",
       "image": "УкрТехніка.jpg",
@@ -23,7 +23,7 @@
     {
       "id": "case3",
       "title": "UX сервісу бронювання",
-      "description": "/UX-ДОСЛІДЖЕННЯ/ПРОТОТИП/",
+      "description": "/UI-UX/ВЕРСТКА/HTML/Six-bass",
       "price": 1100,
       "currency": "+$",
       "image": "UXi.jpg",
