@@ -15,7 +15,6 @@ backend:
   name: github
   repo: hash274/Portfolio
   branch: main
-  base_url: https://asdfasdfd.xyz
   base_url: https://www.asdfasdfd.xyz
   auth_endpoint: api/auth# TODO: set to your Vercel domain
   
