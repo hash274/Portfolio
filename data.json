@@ -4,8 +4,8 @@
       "id": "case1",
       "title": "Лендінг для стартапу",
       "description": "/UI-UX/FIGMA/ЛЕНДІНГ/",
-      "price": null,
-      "currency": "",
+      "price": 0,
+      "currency": "null",
       "image": "Лендінг.jpg",
       "imageFull": "Лендінг.png",
       "url": "https://dotcomfast.github.io/Voltera/"
@@ -14,8 +14,8 @@
       "id": "case2",
       "title": "Сайт для малого бізнесу",
       "description": "/UI-UX/ВЕРСТКА/HTML/",
-      "price": null,
-      "currency": "",
+      "price": 0,
+      "currency": "null",
       "image": "УкрТехніка.jpg",
       "imageFull": "УкрТехніка.png",
       "url": "https://dotcomfast.github.io/UKRtehnika/"
@@ -24,8 +24,8 @@
       "id": "case3",
       "title": "UX сервісу бронювання",
       "description": "/UX-ДОСЛІДЖЕННЯ/ПРОТОТИП/",
-      "price": null,
-      "currency": "",
+      "price": 0,
+      "currency": "null",
       "image": "UXi.jpg",
       "imageFull": "UXi.png",
       "url": "https://dotcomfast.github.io/Six-bass/"
@@ -34,15 +34,27 @@
       "id": "case4",
       "title": "Редизайн сайту компанії",
       "description": "/UI-UX/РЕДИЗАЙН/FIGMA/",
-      "price": null,
-      "currency": "",
+      "price": 0,
+      "currency": "null",
       "image": "Редизайн сайту компанії.jpg",
       "imageFull": "Редизайн сайту компанії.png"
     }
   ],
   "services": [
-    { "id": "service1", "price": 300, "currency": "$" },
-    { "id": "service2", "price": 550, "currency": "$" },
-    { "id": "service3", "price": 100, "currency": "$" }
+    {
+      "id": "service1",
+      "price": 300,
+      "currency": "$"
+    },
+    {
+      "id": "service2",
+      "price": 550,
+      "currency": "$"
+    },
+    {
+      "id": "service3",
+      "price": 100,
+      "currency": "$"
+    }
   ]
 }
