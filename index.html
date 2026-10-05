@@ -544,6 +544,10 @@ html[data-theme="light"] .gradient-blob { opacity: 0.55; mix-blend-mode: multipl
   mix-blend-mode: normal;
 }
 
+.case-modal--site .cursor-dot { display: none; }
+.case-modal--site, .case-modal--site * { cursor: auto; }
+.case-modal--site button { cursor: pointer; }
+
 .case-modal__header {
   display: flex;
   justify-content: flex-end;
@@ -640,6 +644,14 @@ html[data-theme="light"] .gradient-blob { opacity: 0.55; mix-blend-mode: multipl
   font-family: var(--font-mono);
   font-size: 0.875rem;
   text-transform: uppercase;
+}
+
+.case-modal__frame {
+  display: block;
+  width: 100%;
+  height: calc(92vh - 6rem);
+  border: 0;
+  background: #fff;
 }
 
 .case-modal__viewport [hidden] { display: none; }
@@ -914,6 +926,7 @@ html[data-theme="light"] .gradient-blob { opacity: 0.55; mix-blend-mode: multipl
         <span class="case-modal__loader-square" aria-hidden="true"></span>
       </div>
       <img class="case-modal__image" id="case-modal-image" alt="" hidden>
+      <iframe class="case-modal__frame" id="case-modal-frame" title="Перегляд сайту" hidden></iframe>
       <div class="case-modal__placeholder" id="case-modal-placeholder" hidden></div>
     </div>
   </dialog>
@@ -1180,6 +1193,7 @@ function renderPortfolioCards(items) {
     cover.type = "button";
     cover.setAttribute("aria-haspopup", "dialog");
     cover.setAttribute("aria-controls", "case-modal");
+    if (item.url) cover.dataset.url = item.url;
 
     const img = document.createElement("img");
     img.src = item.image || "";
@@ -1256,6 +1270,7 @@ themeToggle.addEventListener("click", () => {
 const caseModal = document.getElementById("case-modal");
 const caseModalImage = document.getElementById("case-modal-image");
 const caseModalPlaceholder = document.getElementById("case-modal-placeholder");
+const caseModalFrame = document.getElementById("case-modal-frame");
 const caseModalViewport = document.querySelector(".case-modal__viewport");
 const caseZoomIn = document.getElementById("case-zoom-in");
 const caseZoomOut = document.getElementById("case-zoom-out");
@@ -1274,21 +1289,39 @@ document.addEventListener("click", (event) => {
   if (!openButton) return;
   const cover = openButton.closest(".case").querySelector(".case__cover");
   const previewImage = cover.querySelector("img");
-  if (previewImage) {
+  const siteUrl = cover.dataset.url;
+  caseModal.classList.toggle("case-modal--site", Boolean(siteUrl));
+  caseZoomIn.style.display = siteUrl ? "none" : "";
+  caseZoomOut.style.display = siteUrl ? "none" : "";
+  if (siteUrl) {
+    caseModalFrame.src = siteUrl;
+    caseModalFrame.hidden = false;
+    caseModalImage.hidden = true;
+    caseModalPlaceholder.hidden = true;
+  } else if (previewImage) {
+    caseModalFrame.hidden = true;
+    caseModalFrame.removeAttribute("src");
     caseModalImage.src = previewImage.dataset.modalSrc || previewImage.currentSrc || previewImage.src;
     caseModalImage.alt = previewImage.alt;
     caseModalImage.hidden = false;
     caseModalPlaceholder.hidden = true;
   } else {
+    caseModalFrame.hidden = true;
+    caseModalFrame.removeAttribute("src");
     caseModalPlaceholder.textContent = cover.textContent.trim();
     caseModalPlaceholder.hidden = false;
     caseModalImage.hidden = true;
   }
   caseModalViewport.classList.add("is-loading");
   const loadId = ++caseModalLoadId;
-  const imageReady = previewImage && typeof caseModalImage.decode === "function"
-    ? caseModalImage.decode().catch(() => {})
-    : Promise.resolve();
+  const imageReady = siteUrl
+    ? new Promise((resolve) => {
+        caseModalFrame.addEventListener("load", resolve, { once: true });
+        window.setTimeout(resolve, 8000);
+      })
+    : previewImage && typeof caseModalImage.decode === "function"
+      ? caseModalImage.decode().catch(() => {})
+      : Promise.resolve();
   Promise.all([
     new Promise((resolve) => window.setTimeout(resolve, 550)),
     imageReady
@@ -1340,6 +1373,7 @@ caseModal.addEventListener("click", (event) => {
 });
 
 caseModal.addEventListener("close", () => {
+  caseModalFrame.removeAttribute("src");
   caseModal.classList.remove("is-closing");
   caseModalClosing = false;
   document.body.append(document.getElementById("cursor-dot"));
