@@ -13,12 +13,12 @@
 # base_url/auth_endpoint below, implemented as Vercel Serverless Functions in /api.
 backend:
   name: github
-  repo: YOUR_GITHUB_USERNAME/YOUR_REPO_NAME # TODO: set to "owner/repo"
+  repo: hash274/Portfolio
   branch: main
-  # Our own OAuth provider (Vercel functions), NOT Netlify's. See /api/auth.js and
-  # /api/callback.js. base_url must be the deployed site origin.
-  base_url: https://YOUR-PROJECT.vercel.app # TODO: set to your Vercel domain
-  auth_endpoint: api/auth
+  base_url: https://asdfasdfd.xyz
+  base_url: https://www.asdfasdfd.xyz
+  auth_endpoint: api/auth# TODO: set to your Vercel domain
+  
 
 # Where uploaded images are committed to and how they are referenced from data.json.
 # Kept at the repo root so paths like "Лендінг.jpg" (already used in data.json)
