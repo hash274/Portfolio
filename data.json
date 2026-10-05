@@ -7,7 +7,8 @@
       "price": null,
       "currency": "",
       "image": "Лендінг.jpg",
-      "imageFull": "Лендінг.png"
+      "imageFull": "Лендінг.png",
+      "url": "https://dotcomfast.github.io/Voltera/"
     },
     {
       "id": "case2",
@@ -16,7 +17,8 @@
       "price": null,
       "currency": "",
       "image": "УкрТехніка.jpg",
-      "imageFull": "УкрТехніка.png"
+      "imageFull": "УкрТехніка.png",
+      "url": "https://dotcomfast.github.io/UKRtehnika/"
     },
     {
       "id": "case3",
@@ -25,7 +27,8 @@
       "price": null,
       "currency": "",
       "image": "UXi.jpg",
-      "imageFull": "UXi.png"
+      "imageFull": "UXi.png",
+      "url": "https://dotcomfast.github.io/Six-bass/"
     },
     {
       "id": "case4",
