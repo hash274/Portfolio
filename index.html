@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bohdan Fastovets — UI/UX Designer</title>
-<meta name="description" content="Bohdan Fastovets — UI/UX дизайнер. Дизайн лендінгів та веб-сайтів для стартапів і малого бізнесу.">
+<meta name="description" content="Bohdan Fastovets — UI/UX дизайнер. Створюю сайти, які перетворюють відвідувачів на клієнтів: лендінги, корпоративні сайти, UX-дослідження.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -875,6 +875,7 @@ html[data-theme="light"] .gradient-blob { opacity: 0.55; mix-blend-mode: multipl
       <h1 class="hero__headline" data-i18n="hero_headline">
         Проектую сайти для стартапів, малого й середнього бізнесу
       </h1>
+      <p data-i18n="hero_proof">2+ роки досвіду · 20+ проєктів (NDA) · Дизайн + верстка власноруч</p>
       <div class="hero__actions">
         <a href="#cases" class="btn btn--primary" data-i18n="hero_cta_primary">Дивитися роботи</a>
         <a href="#contact" class="btn btn--ghost" data-i18n="hero_cta_secondary">Написати</a>
@@ -891,7 +892,7 @@ html[data-theme="light"] .gradient-blob { opacity: 0.55; mix-blend-mode: multipl
       і будую дизайн навколо неї: зрозуміла структура, чіткі акценти, продуманий шлях користувача.
       Без інтеграції платежів — тільки дизайн сайту під ключ, готовий для розробки.
     </p>
-    <a href="#contact" class="btn btn--ghost btn--small" data-i18n="intro_cta">Зв'язатися зі мною</a>
+    <a href="#cases" class="btn btn--ghost btn--small" data-i18n="intro_cta">Переглянути приклади робіт</a>
   </section>
 
   <!-- CASES -->
@@ -924,7 +925,7 @@ html[data-theme="light"] .gradient-blob { opacity: 0.55; mix-blend-mode: multipl
     </div>
     <div class="container midcta__content">
       <h2 data-i18n="midcta_title">Давайте просто поговоримо про ваш сайт</h2>
-      <p data-i18n="midcta_text">Залиште заявку, і я зв'яжуся з вами, щоб обговорити ідеї, бюджет і терміни.</p>
+      <p data-i18n="midcta_text">Розкажіть, що плануєте — відповім з ідеями та орієнтовним бюджетом</p>
       <a href="#contact" class="btn btn--primary" data-i18n="midcta_cta">Залишити заявку</a>
     </div>
   </section>
@@ -948,7 +949,7 @@ html[data-theme="light"] .gradient-blob { opacity: 0.55; mix-blend-mode: multipl
       </div>
       <div class="service">
         <h3 data-i18n="service3_title">UX-дослідження та прототипування</h3>
-        <span class="service__meta" data-i18n="service3_time">5–10 днів</span>
+        <span class="service__meta" data-i18n="service3_time">3–7 днів</span>
         <p data-i18n="service3_desc">Аналіз користувачів, wireframes, перевірка гіпотез перед розробкою.</p>
         <span class="service__price" data-service="service3"></span>
       </div>
@@ -959,7 +960,7 @@ html[data-theme="light"] .gradient-blob { opacity: 0.55; mix-blend-mode: multipl
   <section id="contact" class="section container section--bordered">
     <h2 class="section__title label" data-i18n="contact_title">Розкажіть про свій проєкт</h2>
     <p class="contact__pitch" data-i18n="contact_pitch">
-      Я зв'яжуся з вами протягом 24 годин, щоб обговорити концепцію і терміни.
+      Відповідаю протягом 24 годин з деталями щодо концепції і термінів
     </p>
 
     <form class="contact__form" id="contact-form">
@@ -983,8 +984,7 @@ html[data-theme="light"] .gradient-blob { opacity: 0.55; mix-blend-mode: multipl
 
     <div class="contact__alt">
       <span data-i18n="contact_or">або</span>
-      <!-- TODO: замінити на реальний профіль Instagram -->
-      <a href="https://instagram.com/your_handle" target="_blank" rel="noopener" data-i18n="contact_instagram">
+      <a href="https://www.instagram.com/bog.fastovets?stkn=N3BvZGk4ZnJ2eTN3&amp;utm_source=qr" target="_blank" rel="noopener" data-i18n="contact_instagram">
         Написати в Instagram
       </a>
     </div>
@@ -1005,11 +1005,12 @@ const translations = {
     header_cta: "Обговорити проєкт",
     hero_eyebrow: "UI/UX дизайнер",
     hero_profile_role: "UI/UX дизайнер",
-    hero_headline: "Проектую сайти для малого й середнього бізнесу, спеціалістів та підприємців.",
+    hero_headline: "Проектую сайти для малого бізнесу та підприємців",
+    hero_proof: "2+ роки досвіду · 20+ проєктів (NDA) · Дизайн + верстка власноруч",
     hero_cta_primary: "Дивитися роботи",
     hero_cta_secondary: "Написати",
-    intro_text: "У цьому портфоліо — реальні проєкти. Розбираюся, яку мету переслідує бізнес, і будую дизайн навколо неї: зрозуміла структура, чіткі акценти, продуманий шлях користувача. Без інтеграції платежів — тільки дизайн сайту, готовий для розробки.",
-    intro_cta: "Зв'язатися зі мною",
+    intro_text: "У цьому портфоліо — лише частина моїх робіт: більшість проєктів виконані під NDA для клієнтів. Розбираюся, яку мету переслідує бізнес, і будую дизайн навколо неї — а завдяки навичкам верстки можу одразу передати готовий, чистий код, а не просто макет.",
+    intro_cta: "Переглянути приклади робіт",
     cases_title: "Мої останні роботи",
     case_cover_label: "Зображення кейсу",
     case1_title: "Лендінг для стартапу",
@@ -1021,7 +1022,7 @@ const translations = {
     case4_title: "Редизайн сайту компанії",
     case4_tags: "/UI-UX/РЕДИЗАЙН/FIGMA/",
     midcta_title: "Давайте просто поговоримо про ваш сайт",
-    midcta_text: "Залиште заявку, і я зв'яжуся з вами, щоб обговорити ідеї, бюджет і терміни.",
+    midcta_text: "Розкажіть, що плануєте — відповім з ідеями та орієнтовним бюджетом",
     midcta_cta: "Залишити заявку",
     services_title: "Чим я можу допомогти",
     service1_title: "Дизайн лендінгу",
@@ -1032,10 +1033,10 @@ const translations = {
     service2_time: "15–25 днів",
     service2_desc: "Багатосторінковий сайт із розгорнутою структурою й навігацією: корпоративний сайт, портфоліо, інформаційний портал.",
     service3_title: "UX-дослідження та прототипування",
-    service3_time: "5–10 днів",
+    service3_time: "3–7 днів",
     service3_desc: "Аналіз користувачів, wireframes, перевірка гіпотез перед розробкою.",
     contact_title: "Розкажіть про свій проєкт",
-    contact_pitch: "Я зв'яжуся з вами протягом 24 годин, щоб обговорити концепцію і терміни.",
+    contact_pitch: "Відповідаю протягом 24 годин з деталями щодо концепції і термінів",
     form_name: "Ім'я",
     form_email: "Email",
     form_message: "Повідомлення",
@@ -1055,6 +1056,7 @@ const translations = {
     hero_eyebrow: "UI/UX Designer",
     hero_profile_role: "UI/UX Designer",
     hero_headline: "I design websites for small and medium businesses, specialists and entrepreneurs",
+    hero_proof: "2+ years of experience · 20+ projects (NDA) · Design + development by me",
     hero_cta_primary: "View works",
     hero_cta_secondary: "Get in touch",
     intro_text: "This portfolio contains real projects. I dig into the business goal and build the design around it: clear structure, clear accents, a well-thought-out user journey. No payment integrations — just website design, ready for development.",
@@ -1081,7 +1083,7 @@ const translations = {
     service2_time: "15–25 days",
     service2_desc: "A multi-page site with a full structure and navigation: a corporate site, portfolio, information portal.",
     service3_title: "UX research & prototyping",
-    service3_time: "5–10 days",
+    service3_time: "3–7 days",
     service3_desc: "User research, wireframes, testing hypotheses before development.",
     contact_title: "Tell me about your project",
     contact_pitch: "I'll reply within 24 hours to discuss the concept and timeline.",
@@ -1104,6 +1106,7 @@ const translations = {
     hero_eyebrow: "UI/UX Designer",
     hero_profile_role: "UI/UX Designer",
     hero_headline: "projektuję strony dla małych i średnich firm, specjalistów i przedsiębiorców",
+    hero_proof: "Ponad 2 lata doświadczenia · 20+ projektów (NDA) · Projekt i wdrożenie samodzielnie",
     hero_cta_primary: "Zobacz prace",
     hero_cta_secondary: "Napisz do mnie",
     intro_text: "To portfolio zawiera realne projekty. Analizuję cel biznesowy i buduję wokół niego projekt: czytelną strukturę, wyraźne akcenty, przemyślaną ścieżkę użytkownika. Bez integracji płatności — wyłącznie projekt strony, gotowy do wdrożenia.",
@@ -1130,7 +1133,7 @@ const translations = {
     service2_time: "15–25 dni",
     service2_desc: "Strona wielostronicowa z rozbudowaną strukturą i nawigacją: strona firmowa, portfolio, portal informacyjny.",
     service3_title: "Badania UX i prototypowanie",
-    service3_time: "5–10 dni",
+    service3_time: "3–7 dni",
     service3_desc: "Analiza użytkowników, wireframes, weryfikacja hipotez przed wdrożeniem.",
     contact_title: "Opowiedz o swoim projekcie",
     contact_pitch: "Odpowiem w ciągu 24 godzin, aby omówić koncepcję i terminy.",
@@ -1184,14 +1187,11 @@ function renderPortfolioCards(items) {
     img.alt = item.title || "";
     cover.appendChild(img);
 
-    const title = document.createElement("h3");
-    title.textContent = item.title || "";
-
     const tags = document.createElement("p");
     tags.className = "case__tags";
     tags.textContent = item.description || "";
 
-    article.append(cover, title, tags);
+    article.append(cover, tags);
 
     if (item.price != null) {
       const price = document.createElement("p");
@@ -1201,7 +1201,6 @@ function renderPortfolioCards(items) {
     }
 
     grid.appendChild(article);
-    if (scrambleObserver) scrambleObserver.observe(title);
   });
 }
 
