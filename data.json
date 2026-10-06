@@ -13,7 +13,7 @@
     {
       "id": "case2",
       "title": "Сайт для малого бізнесу",
-      "description": "/UI-UX/ВЕРСТКА/HTML/",
+      "description": "/UI-UX/LAYOUT/HTML/UKRtehnika",
       "price": null,
       "currency": "",
       "image": "УкрТехніка.jpg",
@@ -23,7 +23,7 @@
     {
       "id": "case3",
       "title": "UX сервісу бронювання",
-      "description": "/UX-ДОСЛІДЖЕННЯ/ПРОТОТИП/",
+      "description": "/UI-UX/LAYOUT/HTML/Six-bass",
       "price": null,
       "currency": "",
       "image": "UXi.jpg",
@@ -33,7 +33,7 @@
     {
       "id": "case4",
       "title": "Редизайн сайту компанії",
-      "description": "/UI-UX/РЕДИЗАЙН/FIGMA/",
+      "description": "/UI-UX/LAYOUT/HTML/Le-Petit-Vœu",
       "price": null,
       "currency": "",
       "image": "Редизайн сайту компанії.jpg",
