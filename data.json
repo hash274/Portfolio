@@ -24,7 +24,7 @@
       "id": "case3",
       "title": "UX сервісу бронювання",
       "description": "/UI-UX/LAYOUT/HTML/Six-bass",
-      "price": 1100,
+      "price": 1500,
       "currency": "$+",
       "image": "UXi.jpg",
       "imageFull": "UXi.png",
@@ -33,9 +33,9 @@
     {
       "id": "case4",
       "title": "Редизайн сайту компанії",
-      "description": "/UI-UX/РЕДИЗАЙН/FIGMA/",
-      "price": 0,
-      "currency": "$",
+      "description": "/UI-UX/LAYOUT/HTML/Le-Petit-Vœu",
+      "price": 1500,
+      "currency": "$+",
       "image": "Редизайн сайту компанії.jpg",
       "imageFull": "Редизайн сайту компанії.png"
     }
