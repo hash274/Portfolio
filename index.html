@@ -880,8 +880,8 @@ html[data-theme="light"] .gradient-blob { opacity: 0.55; mix-blend-mode: multipl
     <section class="hero container">
       <div class="hero__profile">
         <div class="hero__avatar-wrap">
-          <img src="avatar.png" alt="Bohdan Fastovets" class="hero__avatar hero__avatar--default">
-          <img src="avatar-hover.png" alt="Bohdan Fastovets" class="hero__avatar hero__avatar--hover">
+          <img src="avatar.webp" width="244" height="244" fetchpriority="high" decoding="async" alt="Bohdan Fastovets" class="hero__avatar hero__avatar--default">
+          <img src="avatar-hover.webp" width="244" height="244" decoding="async" alt="Bohdan Fastovets" class="hero__avatar hero__avatar--hover">
         </div>
         <div>
           <p class="hero__profile-name">Bohdan Fastovets</p>
@@ -1207,6 +1207,9 @@ function renderPortfolioCards(items) {
 
     const img = document.createElement("img");
     img.src = item.image || "";
+    img.loading = "lazy";
+    img.decoding = "async";
+    img.width = 960; img.height = 540;
     img.dataset.modalSrc = item.imageFull || item.image || "";
     img.alt = item.title || "";
     cover.appendChild(img);
@@ -1515,5 +1518,6 @@ if (cursorDot && window.matchMedia("(pointer: fine)").matches) {
   });
 }
 </script>
+<script src="drag.js" defer></script>
 </body>
 </html>
