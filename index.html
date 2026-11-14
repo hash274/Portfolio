@@ -238,6 +238,9 @@ html[data-theme="light"] .theme-toggle__thumb {
 
 .btn--ghost:hover { border-color: var(--accent); color: var(--accent); }
 
+/* the builder is desktop-only, so its header link is too */
+@media (max-width: 1023px) { .header__builder { display: none; } }
+
 .btn--small {
   padding: 0.5625rem 1.125rem;
   font-size: 0.75rem;
@@ -865,6 +868,7 @@ html[data-theme="light"] .gradient-blob { opacity: 0.55; mix-blend-mode: multipl
       <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
         <span class="theme-toggle__thumb" id="theme-toggle-thumb">☾</span>
       </button>
+      <a href="/builder.html" class="btn btn--ghost btn--small header__builder" data-i18n="nav_builder">Зібрати свій сайт</a>
       <a href="#contact" class="btn btn--primary btn--small" data-i18n="header_cta">Обговорити проєкт</a>
     </div>
   </div>
@@ -1019,6 +1023,7 @@ const translations = {
     nav_cases: "Портфоліо",
     nav_services: "Послуги",
     nav_contact: "Контакти",
+    nav_builder: "Зібрати свій сайт",
     header_cta: "Обговорити проєкт",
     hero_eyebrow: "UI/UX дизайнер",
     hero_profile_role: "UI/UX дизайнер",
@@ -1071,6 +1076,7 @@ const translations = {
     nav_cases: "Portfolio",
     nav_services: "Services",
     nav_contact: "Contact",
+    nav_builder: "Build your site",
     header_cta: "Discuss a project",
     hero_eyebrow: "UI/UX Designer",
     hero_profile_role: "UI/UX Designer",
@@ -1123,6 +1129,7 @@ const translations = {
     nav_cases: "Portfolio",
     nav_services: "Usługi",
     nav_contact: "Kontakt",
+    nav_builder: "Zbuduj swoją stronę",
     header_cta: "Omówmy projekt",
     hero_eyebrow: "UI/UX Designer",
     hero_profile_role: "UI/UX Designer",

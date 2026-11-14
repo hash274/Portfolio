@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="uk" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Зібрати свій сайт — Bohdan Fastovets</title>
+<meta name="description" content="Конструктор прототипу сайту: фігури, текст, кнопки, фото. Збирай свій сайт прямо в браузері.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Unbounded:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --font-head: 'Inter Tight', Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+  --accent: #ff7a45;
+}
+html[data-theme="dark"] { --bg:#0a0a0a; --surface:#121212; --surface2:#1a1a1a; --text:#f5f5f2; --muted:#9a9a9a; --border:#262626; --work:#050505; }
+html[data-theme="light"] { --bg:#ffffff; --surface:#f7f7f7; --surface2:#efefef; --text:#0d0d0d; --muted:#6d6d6d; --border:#e2e2e2; --work:#e9e9e9; }
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+body { background: var(--bg); color: var(--text); font-family: var(--font-head); font-size: 14px; overflow: hidden; }
+button, input, select { font: inherit; color: inherit; }
+a { color: inherit; text-decoration: none; }
+
+/* ---------- top bar ---------- */
+.top { height: 56px; display: flex; align-items: center; gap: 12px; padding: 0 16px;
+  border-bottom: 1px solid var(--border); background: var(--bg); }
+.logo { font-weight: 800; font-size: 18px; letter-spacing: -0.02em; }
+.top h1 { font-size: 15px; font-weight: 700; margin: 0 8px 0 4px; white-space: nowrap; }
+.top .spacer { flex: 1; }
+.chip, .tbtn { border: 1px solid var(--border); background: transparent; border-radius: 999px;
+  padding: 6px 12px; cursor: pointer; white-space: nowrap; font-size: 12px; }
+.tbtn:hover, .chip:hover { border-color: var(--accent); color: var(--accent); }
+.tbtn:disabled { opacity: .35; pointer-events: none; }
+.tbtn--primary { background: var(--text); color: var(--bg); border-color: var(--text); font-weight: 700; }
+.tbtn--primary:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+.lang { display: flex; gap: 4px; }
+.lang button { font-family: var(--font-mono); font-size: 11px; padding: 4px 8px; }
+.lang button.is-active { background: var(--text); color: var(--bg); border-color: var(--text); }
+.zoom { font-family: var(--font-mono); font-size: 12px; min-width: 48px; text-align: center; color: var(--muted); }
+.saved { font-family: var(--font-mono); font-size: 11px; color: var(--muted); white-space: nowrap; }
+
+/* ---------- layout ---------- */
+.main { display: grid; grid-template-columns: 236px 1fr 280px; height: calc(100% - 56px); }
+.panel { background: var(--surface); overflow-y: auto; padding: 16px; }
+.panel--left { border-right: 1px solid var(--border); }
+.panel--right { border-left: 1px solid var(--border); }
+.ptitle { font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: .06em;
+  color: var(--muted); margin: 0 0 10px; }
+.ptitle:not(:first-child) { margin-top: 22px; }
+
+.add { display: flex; align-items: center; gap: 10px; width: 100%; padding: 8px 8px 8px 10px; margin-bottom: 6px;
+  border: 1px solid var(--border); border-radius: 10px; background: var(--bg); cursor: pointer; text-align: left; }
+.add:hover { border-color: var(--accent); }
+.add .ico { width: 26px; height: 26px; display: grid; place-items: center; flex-shrink: 0; }
+.add .name { flex: 1; }
+.add .plus { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--accent); color: #0a0a0a; font-weight: 800; font-size: 16px; line-height: 1; }
+
+.row { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
+.row > label { flex: 1; color: var(--muted); font-size: 12px; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+.field { display: flex; align-items: center; gap: 6px; border: 1px solid var(--border); border-radius: 8px;
+  background: var(--bg); padding: 0 8px; height: 32px; }
+.field span { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
+.field input { width: 100%; border: 0; background: transparent; outline: none; min-width: 0; }
+input[type="color"] { width: 36px; height: 28px; padding: 0; border: 1px solid var(--border); border-radius: 6px; background: none; cursor: pointer; }
+input[type="range"] { width: 120px; accent-color: var(--accent); }
+select { height: 32px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); padding: 0 8px; min-width: 120px; }
+.segs { display: flex; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.segs button { border: 0; background: var(--bg); padding: 6px 10px; cursor: pointer; }
+.segs button.is-active { background: var(--text); color: var(--bg); }
+.actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 14px; }
+.actions .tbtn { border-radius: 8px; padding: 8px; }
+.actions .danger:hover { border-color: #ff4d4d; color: #ff4d4d; }
+.hint { color: var(--muted); font-size: 12px; line-height: 1.55; }
+.kbd { font-family: var(--font-mono); font-size: 11px; color: var(--muted); line-height: 1.9; }
+.kbd b { color: var(--text); font-weight: 500; }
+
+/* ---------- workspace ---------- */
+.work { overflow: auto; background: var(--work); position: relative; }
+.stage { padding: 48px; width: max-content; min-width: 100%; display: flex; justify-content: center; }
+.boardwrap { position: relative; flex-shrink: 0; box-shadow: 0 10px 50px rgb(0 0 0 / 35%); }
+.board { position: absolute; left: 0; top: 0; transform-origin: 0 0; overflow: hidden; }
+.board.grid-on { background-image: radial-gradient(rgb(128 128 128 / 28%) 1px, transparent 1px); background-size: 16px 16px; }
+
+.el { position: absolute; user-select: none; }
+.el > .inner { width: 100%; height: 100%; }
+.el svg { width: 100%; height: 100%; display: block; overflow: visible; }
+.el img { width: 100%; height: 100%; display: block; pointer-events: none; }
+.el .txt { width: 100%; height: 100%; white-space: pre-wrap; word-break: break-word; outline: none; }
+.el .txt[contenteditable="true"] { cursor: text; user-select: text; box-shadow: 0 0 0 1px var(--accent); }
+.el .btnface { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
+  text-align: center; white-space: pre-wrap; outline: none; }
+
+.selbox { position: absolute; border: 1.5px solid var(--accent); pointer-events: none; z-index: 100000; }
+.selbox .h { position: absolute; width: 10px; height: 10px; background: #fff; border: 1.5px solid var(--accent);
+  border-radius: 2px; pointer-events: auto; transform: translate(-50%, -50%); }
+.selbox .rot { position: absolute; left: 50%; top: -28px; width: 14px; height: 14px; border-radius: 50%;
+  background: var(--accent); pointer-events: auto; transform: translate(-50%, -50%); cursor: grab; }
+.selbox .rot::after { content: ""; position: absolute; left: 50%; top: 14px; width: 1.5px; height: 14px; background: var(--accent); }
+.guide { position: absolute; background: #ff3df2; pointer-events: none; z-index: 99999; display: none; }
+.guide--v { width: 1px; top: 0; bottom: 0; }
+.guide--h { height: 1px; left: 0; right: 0; }
+
+.toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); background: var(--text); color: var(--bg);
+  padding: 10px 16px; border-radius: 999px; font-size: 13px; opacity: 0; transition: opacity .2s; pointer-events: none; z-index: 10; }
+.toast.show { opacity: 1; }
+
+.mobile-note { display: none; }
+@media (max-width: 899px) {
+  .main, .top .hide-sm { display: none; }
+  .mobile-note { display: grid; place-items: center; text-align: center; height: calc(100% - 56px); padding: 32px; color: var(--muted); line-height: 1.6; }
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a href="/" class="logo">BF</a>
+  <h1 data-t="title">Зібрати свій сайт</h1>
+  <button class="tbtn hide-sm" id="undo" data-tt="undo" title="Ctrl+Z">↶</button>
+  <button class="tbtn hide-sm" id="redo" data-tt="redo" title="Ctrl+Shift+Z">↷</button>
+  <button class="tbtn hide-sm" id="zoom-out">−</button>
+  <span class="zoom hide-sm" id="zoom-val">100%</span>
+  <button class="tbtn hide-sm" id="zoom-in">+</button>
+  <button class="tbtn hide-sm" id="zoom-fit" data-t="fit">Вмістити</button>
+  <div class="spacer"></div>
+  <span class="saved hide-sm" id="saved" data-t="saved">Збережено в браузері на 30 днів</span>
+  <button class="tbtn hide-sm" id="clear" data-t="clear">Очистити</button>
+  <button class="tbtn tbtn--primary hide-sm" id="export" data-t="export">Зберегти PNG</button>
+  <div class="lang">
+    <button class="chip" data-lang="uk">UA</button>
+    <button class="chip" data-lang="en">EN</button>
+    <button class="chip" data-lang="pl">PL</button>
+  </div>
+  <a href="/" class="tbtn" data-t="back">← До портфоліо</a>
+</header>
+
+<p class="mobile-note" data-t="mobile">Конструктор розрахований на комп'ютер або ноутбук. Відкрий цю сторінку на більшому екрані.</p>
+
+<div class="main">
+  <aside class="panel panel--left">
+    <p class="ptitle" data-t="elements">Елементи</p>
+    <button class="add" data-add="rect"><span class="ico"><svg width="20" height="20"><rect x="2" y="2" width="16" height="16" rx="2" fill="currentColor"/></svg></span><span class="name" data-t="square">Квадрат</span><span class="plus">+</span></button>
+    <button class="add" data-add="ellipse"><span class="ico"><svg width="20" height="20"><circle cx="10" cy="10" r="8" fill="currentColor"/></svg></span><span class="name" data-t="circle">Коло</span><span class="plus">+</span></button>
+    <button class="add" data-add="triangle"><span class="ico"><svg width="20" height="20"><polygon points="10,2 18,18 2,18" fill="currentColor"/></svg></span><span class="name" data-t="triangle">Трикутник</span><span class="plus">+</span></button>
+    <button class="add" data-add="text"><span class="ico" style="font-weight:800;font-size:18px">T</span><span class="name" data-t="text">Текст</span><span class="plus">+</span></button>
+    <button class="add" data-add="button"><span class="ico"><svg width="22" height="14"><rect x="1" y="1" width="20" height="12" rx="6" fill="none" stroke="currentColor" stroke-width="2"/></svg></span><span class="name" data-t="button">Кнопка</span><span class="plus">+</span></button>
+    <button class="add" data-add="image"><span class="ico"><svg width="20" height="20"><rect x="2" y="3" width="16" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="7" cy="8" r="1.8" fill="currentColor"/><path d="M3 16l5-5 4 4 2-2 3 3" fill="none" stroke="currentColor" stroke-width="2"/></svg></span><span class="name" data-t="photo">Фото</span><span class="plus">+</span></button>
+    <input type="file" id="file" accept="image/*" hidden>
+
+    <p class="ptitle" data-t="canvas">Полотно</p>
+    <div class="row"><label data-t="bg">Фон</label><input type="color" id="c-bg"></div>
+    <div class="row"><label data-t="width">Ширина</label>
+      <select id="c-w"><option value="1440">1440 · Desktop</option><option value="1200">1200</option><option value="768">768 · Tablet</option><option value="390">390 · Mobile</option></select></div>
+    <div class="row"><label data-t="height">Висота</label><div class="field" style="width:120px"><input type="number" id="c-h" min="300" max="10000" step="100"><span>px</span></div></div>
+    <div class="row"><label data-t="grid">Прив'язка до сітки</label><input type="checkbox" id="c-grid"></div>
+    <button class="tbtn" id="example" style="width:100%;margin-top:6px;border-radius:8px;padding:8px" data-t="example">Заповнити прикладом</button>
+  </aside>
+
+  <section class="work" id="work">
+    <div class="stage">
+      <div class="boardwrap" id="boardwrap">
+        <div class="board" id="board">
+          <div class="guide guide--v" id="guide-v"></div>
+          <div class="guide guide--h" id="guide-h"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <aside class="panel panel--right" id="props"></aside>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(() => {
+"use strict";
+
+/* ================= i18n ================= */
+const I18N = {
+  uk: { title:"Зібрати свій сайт", back:"← До портфоліо", elements:"Елементи", square:"Квадрат", circle:"Коло",
+    triangle:"Трикутник", text:"Текст", button:"Кнопка", photo:"Фото", canvas:"Полотно", bg:"Фон", width:"Ширина",
+    height:"Висота", grid:"Прив'язка до сітки", example:"Заповнити прикладом", fit:"Вмістити", export:"Зберегти PNG",
+    clear:"Очистити", clearConfirm:"Видалити все з полотна? Це не можна скасувати.", saved:"Збережено в браузері на 30 днів",
+    saving:"Зберігаю…", props:"Властивості", nothing:"Обери елемент на полотні або додай новий через «+» зліва.",
+    pos:"Позиція і розмір", rotation:"Поворот", look:"Вигляд", fill:"Заливка", stroke:"Обведення", strokeW:"Товщина обведення",
+    radius:"Заокруглення", opacity:"Непрозорість", shadow:"Тінь", textSec:"Текст", font:"Шрифт", size:"Розмір",
+    weight:"Жирність", color:"Колір тексту", align:"Вирівнювання", lineH:"Міжрядковий інтервал", italic:"Курсив",
+    editHint:"Двічі клікни по елементу, щоб змінити текст.", fitMode:"Фото в рамці", cover:"Обрізати", contain:"Вмістити",
+    replace:"Замінити фото", dup:"Дублювати", front:"Вперед", backward:"Назад", del:"Видалити", lockRatio:"Зберігати пропорції",
+    mobile:"Конструктор розрахований на комп'ютер або ноутбук. Відкрий цю сторінку на більшому екрані.",
+    defText:"Ваш заголовок", defBtn:"Детальніше", undo:"Скасувати", redo:"Повторити", exported:"PNG збережено",
+    tooBig:"Фото завелике — спробуй інше", noRoom:"У браузері закінчилось місце — видали кілька фото",
+    keys:"<b>Shift</b> + тягнути — пропорції / кут 15°<br><b>Del</b> — видалити<br><b>Ctrl+D</b> — дублювати<br><b>Ctrl+C / V</b> — копіювати / вставити<br><b>Ctrl+Z</b> — скасувати<br><b>↑↓←→</b> — зсунути (Shift ×10)<br><b>[ ]</b> — назад / вперед<br><b>Ctrl + коліщатко</b> — масштаб",
+    ex: { kicker:"СТУДІЯ ДИЗАЙНУ · КИЇВ", h1:"Сайти, які\nпродають", p:"Збери прототип за хвилину: фігури, текст, кнопки та фото — все редагується.", btn:"Замовити проєкт", btn2:"Портфоліо" } },
+  en: { title:"Build your site", back:"← Back to portfolio", elements:"Elements", square:"Square", circle:"Circle",
+    triangle:"Triangle", text:"Text", button:"Button", photo:"Photo", canvas:"Canvas", bg:"Background", width:"Width",
+    height:"Height", grid:"Snap to grid", example:"Load an example", fit:"Fit", export:"Save PNG",
+    clear:"Clear", clearConfirm:"Delete everything from the canvas? This can't be undone.", saved:"Saved in your browser for 30 days",
+    saving:"Saving…", props:"Properties", nothing:"Select an element on the canvas or add one with “+” on the left.",
+    pos:"Position & size", rotation:"Rotation", look:"Appearance", fill:"Fill", stroke:"Stroke", strokeW:"Stroke width",
+    radius:"Corner radius", opacity:"Opacity", shadow:"Shadow", textSec:"Text", font:"Font", size:"Size",
+    weight:"Weight", color:"Text color", align:"Alignment", lineH:"Line height", italic:"Italic",
+    editHint:"Double-click the element to edit its text.", fitMode:"Photo in frame", cover:"Crop", contain:"Fit",
+    replace:"Replace photo", dup:"Duplicate", front:"Forward", backward:"Backward", del:"Delete", lockRatio:"Keep proportions",
+    mobile:"The builder is made for a computer or laptop. Open this page on a bigger screen.",
+    defText:"Your headline", defBtn:"Learn more", undo:"Undo", redo:"Redo", exported:"PNG saved",
+    tooBig:"That photo is too large — try another one", noRoom:"Your browser is out of space — delete a few photos",
+    keys:"<b>Shift</b> + drag — proportions / 15° steps<br><b>Del</b> — delete<br><b>Ctrl+D</b> — duplicate<br><b>Ctrl+C / V</b> — copy / paste<br><b>Ctrl+Z</b> — undo<br><b>↑↓←→</b> — nudge (Shift ×10)<br><b>[ ]</b> — backward / forward<br><b>Ctrl + wheel</b> — zoom",
+    ex: { kicker:"DESIGN STUDIO · KYIV", h1:"Websites\nthat sell", p:"Build a prototype in a minute: shapes, text, buttons and photos — everything is editable.", btn:"Start a project", btn2:"Portfolio" } },
+  pl: { title:"Zbuduj swoją stronę", back:"← Do portfolio", elements:"Elementy", square:"Kwadrat", circle:"Koło",
+    triangle:"Trójkąt", text:"Tekst", button:"Przycisk", photo:"Zdjęcie", canvas:"Płótno", bg:"Tło", width:"Szerokość",
+    height:"Wysokość", grid:"Przyciąganie do siatki", example:"Wczytaj przykład", fit:"Dopasuj", export:"Zapisz PNG",
+    clear:"Wyczyść", clearConfirm:"Usunąć wszystko z płótna? Tego nie można cofnąć.", saved:"Zapisano w przeglądarce na 30 dni",
+    saving:"Zapisuję…", props:"Właściwości", nothing:"Wybierz element na płótnie albo dodaj nowy przyciskiem „+” po lewej.",
+    pos:"Pozycja i rozmiar", rotation:"Obrót", look:"Wygląd", fill:"Wypełnienie", stroke:"Obrys", strokeW:"Grubość obrysu",
+    radius:"Zaokrąglenie", opacity:"Krycie", shadow:"Cień", textSec:"Tekst", font:"Czcionka", size:"Rozmiar",
+    weight:"Grubość", color:"Kolor tekstu", align:"Wyrównanie", lineH:"Interlinia", italic:"Kursywa",
+    editHint:"Kliknij dwukrotnie element, aby edytować tekst.", fitMode:"Zdjęcie w ramce", cover:"Przytnij", contain:"Zmieść",
+    replace:"Zmień zdjęcie", dup:"Duplikuj", front:"Do przodu", backward:"Do tyłu", del:"Usuń", lockRatio:"Zachowaj proporcje",
+    mobile:"Konstruktor jest przeznaczony na komputer lub laptop. Otwórz tę stronę na większym ekranie.",
+    defText:"Twój nagłówek", defBtn:"Więcej", undo:"Cofnij", redo:"Ponów", exported:"PNG zapisany",
+    tooBig:"Zdjęcie jest za duże — spróbuj innego", noRoom:"Brak miejsca w przeglądarce — usuń kilka zdjęć",
+    keys:"<b>Shift</b> + przeciągnij — proporcje / kąt 15°<br><b>Del</b> — usuń<br><b>Ctrl+D</b> — duplikuj<br><b>Ctrl+C / V</b> — kopiuj / wklej<br><b>Ctrl+Z</b> — cofnij<br><b>↑↓←→</b> — przesuń (Shift ×10)<br><b>[ ]</b> — do tyłu / do przodu<br><b>Ctrl + kółko</b> — powiększenie",
+    ex: { kicker:"STUDIO PROJEKTOWE · KIJÓW", h1:"Strony,\nktóre sprzedają", p:"Zbuduj prototyp w minutę: kształty, tekst, przyciski i zdjęcia — wszystko można edytować.", btn:"Zamów projekt", btn2:"Portfolio" } },
+};
+let lang = localStorage.getItem("bf-lang") || "uk";
+if (!I18N[lang]) lang = "uk";
+const T = (k) => I18N[lang][k] ?? I18N.uk[k] ?? k;
+
+function applyLang() {
+  document.documentElement.lang = lang;
+  document.title = T("title") + " — Bohdan Fastovets";
+  document.querySelectorAll("[data-t]").forEach((n) => { n.textContent = T(n.dataset.t); });
+  document.querySelectorAll("[data-tt]").forEach((n) => { n.setAttribute("aria-label", T(n.dataset.tt)); });
+  document.querySelectorAll(".lang button").forEach((b) => b.classList.toggle("is-active", b.dataset.lang === lang));
+  renderProps();
+}
+
+/* Theme follows the portfolio's choice. */
+document.documentElement.dataset.theme = localStorage.getItem("bf-theme") || "dark";
+
+/* ================= state ================= */
+const FONTS = [
+  ["Inter Tight", "'Inter Tight', Arial, sans-serif"],
+  ["Playfair Display", "'Playfair Display', Georgia, serif"],
+  ["Unbounded", "'Unbounded', Arial, sans-serif"],
+  ["JetBrains Mono", "'JetBrains Mono', monospace"],
+];
+const fontCss = (name) => (FONTS.find((f) => f[0] === name) || FONTS[0])[1];
+
+const S = { els: [], canvas: { w: 1440, h: 2000, bg: "#ffffff", grid: true }, sel: null, zoom: 1 };
+const images = new Map();          // imageKey -> objectURL
+const imageBlobs = new Map();      // imageKey -> Blob (for export & saving)
+let past = [], future = [], clipboard = null;
+let uid = Date.now();
+const newId = () => "e" + (uid++).toString(36);
+
+const $ = (id) => document.getElementById(id);
+const board = $("board"), wrap = $("boardwrap"), work = $("work"), props = $("props");
+const sel = () => S.els.find((e) => e.id === S.sel) || null;
+
+/* ================= storage: IndexedDB + 30-day cookie ================= */
+const COOKIE = "bf_builder";
+const DAYS30 = 30 * 24 * 3600;
+const hasCookie = () => document.cookie.split("; ").some((c) => c.startsWith(COOKIE + "="));
+const touchCookie = () => { document.cookie = `${COOKIE}=1; max-age=${DAYS30}; path=/; SameSite=Lax`; };
+const dropCookie = () => { document.cookie = `${COOKIE}=; max-age=0; path=/; SameSite=Lax`; };
+
+let dbp = null;
+function db() {
+  if (!dbp) dbp = new Promise((res, rej) => {
+    const r = indexedDB.open("bf-builder", 1);
+    r.onupgradeneeded = () => r.result.createObjectStore("kv");
+    r.onsuccess = () => res(r.result);
+    r.onerror = () => rej(r.error);
+  });
+  return dbp;
+}
+async function idb(mode, fn) {
+  const d = await db();
+  return new Promise((res, rej) => {
+    const tx = d.transaction("kv", mode);
+    const out = fn(tx.objectStore("kv"));
+    tx.oncomplete = () => res(out && "result" in out ? out.result : undefined);
+    tx.onerror = () => rej(tx.error);
+    tx.onabort = () => rej(tx.error);
+  });
+}
+const idbGet = (k) => idb("readonly", (s) => s.get(k));
+const idbPut = (k, v) => idb("readwrite", (s) => s.put(v, k));
+const idbKeys = () => idb("readonly", (s) => s.getAllKeys());
+const idbDel = (k) => idb("readwrite", (s) => s.delete(k));
+const idbClear = () => idb("readwrite", (s) => s.clear());
+
+let saveTimer = null;
+function scheduleSave() {
+  $("saved").textContent = T("saving");
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(save, 400);
+}
+async function save() {
+  try {
+    await idbPut("state", { els: S.els, canvas: S.canvas, savedAt: Date.now() });
+    touchCookie();
+    // drop photos no longer used anywhere (including undo history)
+    const used = new Set();
+    [S.els, ...past, ...future].forEach((list) => (typeof list === "string" ? JSON.parse(list) : list)
+      .forEach((e) => e.src && used.add(e.src)));
+    for (const k of await idbKeys()) if (k.startsWith("img:") && !used.has(k)) await idbDel(k);
+    $("saved").textContent = T("saved");
+  } catch (err) {
+    console.error(err);
+    toast(T("noRoom"));
+  }
+}
+async function load() {
+  try {
+    const state = await idbGet("state");
+    const expired = !state || !hasCookie() || Date.now() - (state.savedAt || 0) > DAYS30 * 1000;
+    if (expired) { if (state) await idbClear(); return false; }
+    S.els = state.els || [];
+    Object.assign(S.canvas, state.canvas || {});
+    for (const e of S.els) if (e.src && !images.has(e.src)) {
+      const blob = await idbGet(e.src);
+      if (blob) { imageBlobs.set(e.src, blob); images.set(e.src, URL.createObjectURL(blob)); }
+    }
+    return true;
+  } catch (err) { console.error(err); return false; }
+}
+
+/* ================= history ================= */
+function snapshot() { return JSON.stringify(S.els); }
+function commit() {
+  past.push(lastSnap);
+  if (past.length > 100) past.shift();
+  future = [];
+  lastSnap = snapshot();
+  updateHistoryButtons();
+  scheduleSave();
+}
+let lastSnap = "[]";
+function undo() {
+  if (!past.length) return;
+  future.push(snapshot());
+  S.els = JSON.parse(past.pop());
+  lastSnap = snapshot();
+  if (!sel()) S.sel = null;
+  render(); renderProps(); updateHistoryButtons(); scheduleSave();
+}
+function redo() {
+  if (!future.length) return;
+  past.push(snapshot());
+  S.els = JSON.parse(future.pop());
+  lastSnap = snapshot();
+  if (!sel()) S.sel = null;
+  render(); renderProps(); updateHistoryButtons(); scheduleSave();
+}
+function updateHistoryButtons() { $("undo").disabled = !past.length; $("redo").disabled = !future.length; }
+
+/* ================= element factory ================= */
+function viewCenter() {
+  const r = work.getBoundingClientRect(), b = wrap.getBoundingClientRect();
+  const cx = (r.left + r.width / 2 - b.left) / S.zoom, cy = (r.top + r.height / 2 - b.top) / S.zoom;
+  return { x: Math.min(Math.max(cx, 100), S.canvas.w - 100), y: Math.min(Math.max(cy, 100), S.canvas.h - 100) };
+}
+const BASE = { rot: 0, opacity: 1, stroke: "#0a0a0a", strokeW: 0, radius: 0, shadow: false };
+const TEXTBASE = { font: "Inter Tight", size: 48, weight: 700, color: "#0a0a0a", align: "left", lh: 1.15, italic: false };
+function make(type, extra = {}) {
+  const c = viewCenter();
+  const d = {
+    rect: { w: 200, h: 200, fill: "#ff7a45" },
+    ellipse: { w: 200, h: 200, fill: "#3d7bff" },
+    triangle: { w: 220, h: 200, fill: "#ffd23d" },
+    text: { w: 520, h: 70, fill: "transparent", text: T("defText"), ...TEXTBASE },
+    button: { w: 220, h: 60, fill: "#0a0a0a", radius: 30, text: T("defBtn"), ...TEXTBASE, size: 18, weight: 600, color: "#ffffff", align: "center", lh: 1.2 },
+    image: { w: 400, h: 280, fill: "transparent", fit: "cover", radius: 0 },
+  }[type];
+  const el = { id: newId(), type, ...BASE, ...d, ...extra };
+  if (!("x" in extra)) { el.x = Math.round(c.x - el.w / 2); el.y = Math.round(c.y - el.h / 2); }
+  return el;
+}
+function add(type, extra) {
+  const el = make(type, extra);
+  S.els.push(el);
+  S.sel = el.id;
+  render(); renderProps(); commit();
+  return el;
+}
+
+/* ================= images ================= */
+async function readImage(file) {
+  if (!file || !file.type.startsWith("image/")) return null;
+  let bmp;
+  try { bmp = await createImageBitmap(file); } catch { toast(T("tooBig")); return null; }
+  const max = 1600, k = Math.min(1, max / Math.max(bmp.width, bmp.height));
+  const w = Math.round(bmp.width * k), h = Math.round(bmp.height * k);
+  const cv = document.createElement("canvas"); cv.width = w; cv.height = h;
+  cv.getContext("2d").drawImage(bmp, 0, 0, w, h);
+  const blob = await new Promise((r) => cv.toBlob(r, "image/webp", 0.85))
+            || await new Promise((r) => cv.toBlob(r, "image/jpeg", 0.85));
+  const key = "img:" + newId();
+  try { await idbPut(key, blob); touchCookie(); } catch { toast(T("noRoom")); return null; }
+  imageBlobs.set(key, blob);
+  images.set(key, URL.createObjectURL(blob));
+  return { key, w, h };
+}
+let replaceTarget = null;
+$("file").addEventListener("change", async (e) => {
+  const file = e.target.files[0]; e.target.value = "";
+  const img = await readImage(file);
+  if (!img) return;
+  const ratio = img.h / img.w;
+  if (replaceTarget) {
+    const el = S.els.find((x) => x.id === replaceTarget);
+    if (el) { el.src = img.key; el.h = Math.round(el.w * ratio); render(); renderProps(); commit(); }
+    replaceTarget = null;
+  } else {
+    const w = Math.min(480, img.w);
+    add("image", { src: img.key, w, h: Math.round(w * ratio) });
+  }
+});
+
+/* ================= rendering ================= */
+const nodes = new Map();
+function shadowCss(el) { return el.shadow ? "0 12px 32px rgb(0 0 0 / 28%)" : "none"; }
+
+function render() {
+  const { w, h, bg, grid } = S.canvas;
+  board.style.width = w + "px"; board.style.height = h + "px";
+  board.style.backgroundColor = bg;
+  board.style.transform = `scale(${S.zoom})`;
+  board.classList.toggle("grid-on", !!grid);
+  wrap.style.width = w * S.zoom + "px"; wrap.style.height = h * S.zoom + "px";
+  $("zoom-val").textContent = Math.round(S.zoom * 100) + "%";
+
+  const alive = new Set();
+  S.els.forEach((el, i) => {
+    alive.add(el.id);
+    let n = nodes.get(el.id);
+    if (!n || n.dataset.type !== el.type) {
+      n?.remove();
+      n = document.createElement("div");
+      n.className = "el"; n.dataset.id = el.id; n.dataset.type = el.type;
+      if (el.type === "triangle") n.innerHTML = '<svg viewBox="0 0 100 100" preserveAspectRatio="none"><polygon points="50,0 100,100 0,100" vector-effect="non-scaling-stroke"/></svg>';
+      else if (el.type === "text") n.innerHTML = '<div class="txt"></div>';
+      else if (el.type === "button") n.innerHTML = '<div class="btnface"></div>';
+      else if (el.type === "image") n.innerHTML = '<img alt="">';
+      board.appendChild(n);
+      nodes.set(el.id, n);
+    }
+    paint(n, el, i);
+  });
+  for (const [id, n] of nodes) if (!alive.has(id)) { n.remove(); nodes.delete(id); }
+  drawSelection();
+}
+
+function paint(n, el, i) {
+  const st = n.style;
+  st.left = el.x + "px"; st.top = el.y + "px"; st.width = el.w + "px"; st.height = el.h + "px";
+  st.transform = `rotate(${el.rot}deg)`; st.opacity = el.opacity; st.zIndex = i + 1;
+  st.background = "none"; st.border = "0"; st.borderRadius = "0"; st.boxShadow = "none"; st.filter = "none"; st.overflow = "visible";
+  const border = el.strokeW ? `${el.strokeW}px solid ${el.stroke}` : "0";
+  switch (el.type) {
+    case "rect":
+      st.background = el.fill; st.border = border; st.borderRadius = el.radius + "px"; st.boxShadow = shadowCss(el); break;
+    case "ellipse":
+      st.background = el.fill; st.border = border; st.borderRadius = "50%"; st.boxShadow = shadowCss(el); break;
+    case "triangle": {
+      const p = n.querySelector("polygon");
+      p.setAttribute("fill", el.fill);
+      p.setAttribute("stroke", el.strokeW ? el.stroke : "none");
+      p.setAttribute("stroke-width", el.strokeW);
+      p.setAttribute("stroke-linejoin", "round");
+      st.filter = el.shadow ? "drop-shadow(0 12px 18px rgb(0 0 0 / 28%))" : "none";
+      break;
+    }
+    case "text":
+    case "button": {
+      const t = n.firstElementChild;
+      if (t.getAttribute("contenteditable") !== "true") t.textContent = el.text;
+      Object.assign(t.style, { fontFamily: fontCss(el.font), fontSize: el.size + "px", fontWeight: el.weight,
+        color: el.color, textAlign: el.align, lineHeight: el.lh, fontStyle: el.italic ? "italic" : "normal",
+        justifyContent: el.align === "left" ? "flex-start" : el.align === "right" ? "flex-end" : "center" });
+      st.background = el.fill; st.border = border; st.borderRadius = el.radius + "px"; st.boxShadow = shadowCss(el);
+      if (el.type === "button") { st.overflow = "hidden"; t.style.padding = "0 16px"; }
+      break;
+    }
+    case "image": {
+      const img = n.querySelector("img");
+      const url = images.get(el.src) || "";
+      if (img.getAttribute("src") !== url) img.setAttribute("src", url);
+      img.style.objectFit = el.fit; img.style.borderRadius = el.radius + "px";
+      st.border = border; st.borderRadius = el.radius + "px"; st.boxShadow = shadowCss(el); st.overflow = "hidden";
+      st.background = url ? "none" : "repeating-linear-gradient(45deg,#ddd 0 10px,#eee 10px 20px)";
+      break;
+    }
+  }
+}
+
+let selBox = null;
+function drawSelection() {
+  const el = sel();
+  if (!el) { selBox?.remove(); selBox = null; return; }
+  if (!selBox) {
+    selBox = document.createElement("div");
+    selBox.className = "selbox";
+    const dirs = [["nw",-1,-1],["n",0,-1],["ne",1,-1],["e",1,0],["se",1,1],["s",0,1],["sw",-1,1],["w",-1,0]];
+    const cursors = { n:"ns", s:"ns", e:"ew", w:"ew", ne:"nesw", sw:"nesw", nw:"nwse", se:"nwse" };
+    selBox.innerHTML = dirs.map(([k, x, y]) =>
+      `<div class="h" data-h="${k}" data-hx="${x}" data-hy="${y}" style="left:${(x + 1) * 50}%;top:${(y + 1) * 50}%;cursor:${cursors[k]}-resize"></div>`).join("")
+      + '<div class="rot" data-rot="1"></div>';
+    board.appendChild(selBox);
+  }
+  const b = 1.5 / S.zoom;
+  Object.assign(selBox.style, { left: el.x + "px", top: el.y + "px", width: el.w + "px", height: el.h + "px",
+    transform: `rotate(${el.rot}deg)`, borderWidth: b + "px" });
+  selBox.querySelectorAll(".h").forEach((h) => { h.style.transform = `translate(-50%,-50%) scale(${1 / S.zoom})`; });
+  const r = selBox.querySelector(".rot");
+  r.style.transform = `translate(-50%,-50%) scale(${1 / S.zoom})`; r.style.top = -28 / S.zoom + "px";
+}
+
+/* ================= properties panel ================= */
+const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
+const toHex = (c) => (/^#[0-9a-f]{6}$/i.test(c) ? c : "#ffffff");
+function num(label, key, val, step = 1) {
+  return `<div class="field"><span>${label}</span><input type="number" data-k="${key}" value="${Math.round(val * 10) / 10}" step="${step}"></div>`;
+}
+function renderProps() {
+  const el = sel();
+  if (!el) {
+    props.innerHTML = `<p class="ptitle">${T("props")}</p><p class="hint">${T("nothing")}</p>
+      <p class="ptitle">⌨</p><div class="kbd">${T("keys")}</div>`;
+    syncCanvasInputs();
+    return;
+  }
+  const isText = el.type === "text" || el.type === "button";
+  const fillable = el.type !== "image";
+  const transparentFill = el.fill === "transparent";
+  let h = `<p class="ptitle">${T("pos")}</p>
+    <div class="grid2">${num("X", "x", el.x)}${num("Y", "y", el.y)}${num("W", "w", el.w)}${num("H", "h", el.h)}</div>
+    <div class="row"><label>${T("rotation")}</label><div class="field" style="width:96px"><input type="number" data-k="rot" value="${Math.round(el.rot)}"><span>°</span></div></div>
+    <p class="ptitle">${T("look")}</p>`;
+  if (fillable) h += `<div class="row"><label>${T("fill")}</label>
+      ${isText ? `<input type="checkbox" data-k="fillOn" ${transparentFill ? "" : "checked"} title="on/off">` : ""}
+      <input type="color" data-k="fill" value="${toHex(el.fill)}"></div>`;
+  h += `<div class="row"><label>${T("stroke")}</label><input type="color" data-k="stroke" value="${toHex(el.stroke)}"></div>
+    <div class="row"><label>${T("strokeW")}</label><input type="range" min="0" max="24" data-k="strokeW" value="${el.strokeW}"></div>`;
+  if (["rect", "text", "button", "image"].includes(el.type))
+    h += `<div class="row"><label>${T("radius")}</label><input type="range" min="0" max="${Math.round(Math.min(el.w, el.h) / 2)}" data-k="radius" value="${el.radius}"></div>`;
+  h += `<div class="row"><label>${T("opacity")}</label><input type="range" min="0.05" max="1" step="0.05" data-k="opacity" value="${el.opacity}"></div>
+    <div class="row"><label>${T("shadow")}</label><input type="checkbox" data-k="shadow" ${el.shadow ? "checked" : ""}></div>`;
+  if (isText) {
+    h += `<p class="ptitle">${T("textSec")}</p><p class="hint" style="margin:0 0 10px">${T("editHint")}</p>
+      <div class="row"><label>${T("font")}</label><select data-k="font">${FONTS.map(([n]) => `<option ${n === el.font ? "selected" : ""}>${n}</option>`).join("")}</select></div>
+      <div class="row"><label>${T("size")}</label><div class="field" style="width:96px"><input type="number" min="6" max="400" data-k="size" value="${el.size}"><span>px</span></div></div>
+      <div class="row"><label>${T("weight")}</label><select data-k="weight">${[400, 500, 600, 700, 800].map((w) => `<option ${w == el.weight ? "selected" : ""}>${w}</option>`).join("")}</select></div>
+      <div class="row"><label>${T("color")}</label><input type="color" data-k="color" value="${toHex(el.color)}"></div>
+      <div class="row"><label>${T("align")}</label><div class="segs">${["left", "center", "right"].map((a) =>
+        `<button type="button" data-align="${a}" class="${el.align === a ? "is-active" : ""}">${{ left: "⟸", center: "≡", right: "⟹" }[a]}</button>`).join("")}</div></div>
+      <div class="row"><label>${T("lineH")}</label><input type="range" min="0.8" max="2.4" step="0.05" data-k="lh" value="${el.lh}"></div>
+      <div class="row"><label>${T("italic")}</label><input type="checkbox" data-k="italic" ${el.italic ? "checked" : ""}></div>`;
+  }
+  if (el.type === "image") {
+    h += `<div class="row"><label>${T("fitMode")}</label><select data-k="fit">
+        <option value="cover" ${el.fit === "cover" ? "selected" : ""}>${T("cover")}</option>
+        <option value="contain" ${el.fit === "contain" ? "selected" : ""}>${T("contain")}</option></select></div>
+      <button class="tbtn" id="replace" style="width:100%;border-radius:8px;padding:8px">${T("replace")}</button>`;
+  }
+  h += `<div class="actions">
+      <button class="tbtn" data-act="dup">${T("dup")}</button>
+      <button class="tbtn danger" data-act="del">${T("del")}</button>
+      <button class="tbtn" data-act="backward">${T("backward")}</button>
+      <button class="tbtn" data-act="front">${T("front")}</button></div>`;
+  props.innerHTML = h;
+  syncCanvasInputs();
+}
+
+let propChangeTimer = null;
+props.addEventListener("input", (e) => {
+  const el = sel(); const k = e.target.dataset.k;
+  if (!el || !k) return;
+  const t = e.target;
+  if (k === "fillOn") el.fill = t.checked ? (props.querySelector('[data-k="fill"]').value) : "transparent";
+  else if (t.type === "checkbox") el[k] = t.checked;
+  else if (t.type === "number" || t.type === "range") {
+    const v = parseFloat(t.value); if (Number.isNaN(v)) return;
+    el[k] = ["w", "h"].includes(k) ? Math.max(4, v) : v;
+  } else if (k === "fill" && el.fill === "transparent" && (el.type === "text" || el.type === "button")) {
+    el.fill = t.value; const cb = props.querySelector('[data-k="fillOn"]'); if (cb) cb.checked = true;
+  } else el[k] = k === "weight" ? +t.value : t.value;
+  render();
+  clearTimeout(propChangeTimer);
+  propChangeTimer = setTimeout(commit, 350);
+});
+props.addEventListener("change", (e) => { if (["w", "h"].includes(e.target.dataset.k)) renderProps(); });
+props.addEventListener("click", (e) => {
+  const el = sel(); if (!el) return;
+  const a = e.target.closest("[data-align]");
+  if (a) { el.align = a.dataset.align; render(); renderProps(); commit(); return; }
+  if (e.target.id === "replace") { replaceTarget = el.id; $("file").click(); return; }
+  const act = e.target.closest("[data-act]")?.dataset.act;
+  if (act) action(act);
+});
+
+function action(act) {
+  const el = sel(); if (!el) return;
+  const i = S.els.indexOf(el);
+  if (act === "del") { S.els.splice(i, 1); S.sel = null; }
+  else if (act === "dup") { const c = { ...el, id: newId(), x: el.x + 24, y: el.y + 24 }; S.els.push(c); S.sel = c.id; }
+  else if (act === "front" && i < S.els.length - 1) { S.els.splice(i, 1); S.els.splice(i + 1, 0, el); }
+  else if (act === "backward" && i > 0) { S.els.splice(i, 1); S.els.splice(i - 1, 0, el); }
+  else return;
+  render(); renderProps(); commit();
+}
+
+/* ================= canvas settings ================= */
+function syncCanvasInputs() {
+  $("c-bg").value = toHex(S.canvas.bg); $("c-w").value = String(S.canvas.w);
+  $("c-h").value = S.canvas.h; $("c-grid").checked = !!S.canvas.grid;
+}
+$("c-bg").addEventListener("input", (e) => { S.canvas.bg = e.target.value; render(); scheduleSave(); });
+$("c-w").addEventListener("change", (e) => { S.canvas.w = +e.target.value; render(); fitZoom(); scheduleSave(); });
+$("c-h").addEventListener("change", (e) => { S.canvas.h = Math.min(10000, Math.max(300, +e.target.value || 2000)); render(); scheduleSave(); });
+$("c-grid").addEventListener("change", (e) => { S.canvas.grid = e.target.checked; render(); scheduleSave(); });
+
+/* ================= pointer interactions ================= */
+let drag = null, editing = null;
+const toBoard = (e) => { const r = board.getBoundingClientRect(); return { x: (e.clientX - r.left) / S.zoom, y: (e.clientY - r.top) / S.zoom }; };
+const snap = (v) => (S.canvas.grid ? Math.round(v / 8) * 8 : Math.round(v));
+const rad = (d) => (d * Math.PI) / 180;
+
+board.addEventListener("pointerdown", (e) => {
+  if (e.button !== 0) return;
+  const handle = e.target.closest(".h"), rot = e.target.closest(".rot");
+  const el = sel();
+  if (editing && e.target.closest(".el")?.dataset.id === editing) return;   // clicks inside the text being edited
+  if (editing) stopEditing();
+  if (el && (handle || rot)) {
+    e.preventDefault();
+    board.setPointerCapture(e.pointerId);
+    const p = toBoard(e);
+    drag = rot
+      ? { mode: "rot", el, cx: el.x + el.w / 2, cy: el.y + el.h / 2 }
+      : { mode: "resize", el, hx: +handle.dataset.hx, hy: +handle.dataset.hy, p0: p, x0: el.x, y0: el.y, w0: el.w, h0: el.h };
+    return;
+  }
+  const node = e.target.closest(".el");
+  if (!node) { S.sel = null; render(); renderProps(); return; }
+  e.preventDefault();
+  S.sel = node.dataset.id;
+  const target = sel();
+  render(); renderProps();
+  board.setPointerCapture(e.pointerId);
+  drag = { mode: "move", el: target, p0: toBoard(e), x0: target.x, y0: target.y, moved: false };
+});
+
+board.addEventListener("pointermove", (e) => {
+  if (!drag) return;
+  const p = toBoard(e), el = drag.el;
+  if (drag.mode === "move") {
+    let x = drag.x0 + p.x - drag.p0.x, y = drag.y0 + p.y - drag.p0.y;
+    if (!drag.moved && Math.hypot(p.x - drag.p0.x, p.y - drag.p0.y) < 2) return;
+    drag.moved = true;
+    x = snap(x); y = snap(y);
+    // snap to canvas centre lines
+    const gv = $("guide-v"), gh = $("guide-h");
+    const cx = S.canvas.w / 2, cy = S.canvas.h / 2;
+    gv.style.display = gh.style.display = "none";
+    if (Math.abs(x + el.w / 2 - cx) < 8 / S.zoom * 1.5) { x = cx - el.w / 2; gv.style.left = cx + "px"; gv.style.display = "block"; }
+    if (Math.abs(y + el.h / 2 - cy) < 8 / S.zoom * 1.5) { y = cy - el.h / 2; gh.style.top = cy + "px"; gh.style.display = "block"; }
+    el.x = Math.round(x); el.y = Math.round(y);
+  } else if (drag.mode === "rot") {
+    let a = (Math.atan2(p.y - drag.cy, p.x - drag.cx) * 180) / Math.PI + 90;
+    if (e.shiftKey) a = Math.round(a / 15) * 15;
+    el.rot = Math.round(((a % 360) + 360) % 360);
+  } else {
+    const r = rad(el.rot), cos = Math.cos(r), sin = Math.sin(r);
+    const dx = p.x - drag.p0.x, dy = p.y - drag.p0.y;
+    const lx = dx * cos + dy * sin, ly = -dx * sin + dy * cos;          // delta in element's own axes
+    let w = drag.w0 + drag.hx * lx, h = drag.h0 + drag.hy * ly;
+    const keep = e.shiftKey || el.type === "ellipse" && e.altKey;
+    if (keep && drag.hx && drag.hy) { const k = Math.max(w / drag.w0, h / drag.h0); w = drag.w0 * k; h = drag.h0 * k; }
+    w = Math.max(8, Math.round(w)); h = Math.max(8, Math.round(h));
+    if (!drag.hx) w = drag.w0;
+    if (!drag.hy) h = drag.h0;
+    // keep the opposite edge where it was: move the centre by half the growth, in rotated space
+    const gx = (drag.hx * (w - drag.w0)) / 2, gy = (drag.hy * (h - drag.h0)) / 2;
+    const cx0 = drag.x0 + drag.w0 / 2, cy0 = drag.y0 + drag.h0 / 2;
+    const cx = cx0 + gx * cos - gy * sin, cy = cy0 + gx * sin + gy * cos;
+    el.w = w; el.h = h; el.x = Math.round(cx - w / 2); el.y = Math.round(cy - h / 2);
+  }
+  render();
+});
+
+function endDrag() {
+  if (!drag) return;
+  $("guide-v").style.display = $("guide-h").style.display = "none";
+  const changed = drag.mode !== "move" || drag.moved;
+  drag = null;
+  if (changed) { renderProps(); commit(); }
+}
+board.addEventListener("pointerup", endDrag);
+board.addEventListener("pointercancel", endDrag);
+
+/* text editing */
+board.addEventListener("dblclick", (e) => {
+  // pointer capture retargets the event to the board, so look up what is under the cursor
+  const hit = document.elementFromPoint(e.clientX, e.clientY);
+  const node = hit && hit.closest(".el");
+  if (!node || !["text", "button"].includes(node.dataset.type)) return;
+  const t = node.firstElementChild;
+  editing = node.dataset.id;
+  t.setAttribute("contenteditable", "true");
+  t.focus();
+  const r = document.createRange(); r.selectNodeContents(t);
+  const s = getSelection(); s.removeAllRanges(); s.addRange(r);
+});
+function stopEditing() {
+  if (!editing) return;
+  const node = nodes.get(editing), el = S.els.find((x) => x.id === editing);
+  editing = null;
+  if (!node) return;
+  const t = node.firstElementChild;
+  t.removeAttribute("contenteditable");
+  if (el) { const v = t.innerText.replace(/\n$/, ""); if (v !== el.text) { el.text = v; commit(); } }
+  render();
+}
+board.addEventListener("focusout", (e) => { if (e.target.classList?.contains("txt") || e.target.classList?.contains("btnface")) stopEditing(); });
+
+/* ================= keyboard ================= */
+document.addEventListener("keydown", (e) => {
+  const typing = editing || ["INPUT", "SELECT", "TEXTAREA"].includes(document.activeElement?.tagName);
+  const mod = e.ctrlKey || e.metaKey;
+  if (editing && e.key === "Escape") { stopEditing(); return; }
+  if (typing) return;
+  const el = sel();
+  if (mod && e.key.toLowerCase() === "z") { e.preventDefault(); e.shiftKey ? redo() : undo(); return; }
+  if (mod && e.key.toLowerCase() === "y") { e.preventDefault(); redo(); return; }
+  if (!el) return;
+  if (e.key === "Delete" || e.key === "Backspace") { e.preventDefault(); action("del"); }
+  else if (mod && e.key.toLowerCase() === "d") { e.preventDefault(); action("dup"); }
+  else if (mod && e.key.toLowerCase() === "c") { clipboard = JSON.stringify(el); }
+  else if (e.key === "]") action("front");
+  else if (e.key === "[") action("backward");
+  else if (e.key === "Escape") { S.sel = null; render(); renderProps(); }
+  else if (e.key.startsWith("Arrow")) {
+    e.preventDefault();
+    const d = e.shiftKey ? 10 : 1;
+    if (e.key === "ArrowLeft") el.x -= d; if (e.key === "ArrowRight") el.x += d;
+    if (e.key === "ArrowUp") el.y -= d; if (e.key === "ArrowDown") el.y += d;
+    render(); renderProps();
+    clearTimeout(propChangeTimer); propChangeTimer = setTimeout(commit, 350);
+  }
+});
+document.addEventListener("keydown", (e) => {
+  if (editing || ["INPUT", "SELECT", "TEXTAREA"].includes(document.activeElement?.tagName)) return;
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "v" && clipboard) {
+    const c = { ...JSON.parse(clipboard), id: newId() }; c.x += 24; c.y += 24;
+    S.els.push(c); S.sel = c.id; clipboard = JSON.stringify(c);
+    render(); renderProps(); commit();
+  }
+});
+/* paste an image straight from the clipboard */
+document.addEventListener("paste", async (e) => {
+  if (editing) return;
+  const item = [...(e.clipboardData?.items || [])].find((i) => i.type.startsWith("image/"));
+  if (!item) return;
+  e.preventDefault();
+  const img = await readImage(item.getAsFile());
+  if (img) { const w = Math.min(480, img.w); add("image", { src: img.key, w, h: Math.round(w * img.h / img.w) }); }
+});
+/* drop image files onto the canvas */
+work.addEventListener("dragover", (e) => e.preventDefault());
+work.addEventListener("drop", async (e) => {
+  e.preventDefault();
+  const file = [...(e.dataTransfer?.files || [])].find((f) => f.type.startsWith("image/"));
+  if (!file) return;
+  const img = await readImage(file);
+  if (!img) return;
+  const p = toBoard(e), w = Math.min(480, img.w), h = Math.round(w * img.h / img.w);
+  add("image", { src: img.key, w, h, x: Math.round(p.x - w / 2), y: Math.round(p.y - h / 2) });
+});
+
+/* ================= zoom ================= */
+function setZoom(z) { S.zoom = Math.min(3, Math.max(0.1, Math.round(z * 100) / 100)); render(); }
+function fitZoom() { setZoom(Math.min(1, (work.clientWidth - 96) / S.canvas.w)); }
+$("zoom-in").onclick = () => setZoom(S.zoom + 0.1);
+$("zoom-out").onclick = () => setZoom(S.zoom - 0.1);
+$("zoom-fit").onclick = fitZoom;
+work.addEventListener("wheel", (e) => { if (e.ctrlKey || e.metaKey) { e.preventDefault(); setZoom(S.zoom * (e.deltaY < 0 ? 1.1 : 0.9)); } }, { passive: false });
+
+/* ================= toolbar ================= */
+document.querySelectorAll("[data-add]").forEach((b) => b.addEventListener("click", () => {
+  if (b.dataset.add === "image") { replaceTarget = null; $("file").click(); }
+  else add(b.dataset.add);
+}));
+$("undo").onclick = undo; $("redo").onclick = redo;
+$("clear").onclick = async () => {
+  if (!confirm(T("clearConfirm"))) return;
+  S.els = []; S.sel = null; past = []; future = []; lastSnap = "[]";
+  images.forEach((u) => URL.revokeObjectURL(u)); images.clear(); imageBlobs.clear();
+  try { await idbClear(); } catch {}
+  dropCookie();
+  render(); renderProps(); updateHistoryButtons();
+  $("saved").textContent = T("saved");
+};
+document.querySelectorAll(".lang button").forEach((b) => b.addEventListener("click", () => {
+  lang = b.dataset.lang; localStorage.setItem("bf-lang", lang); applyLang();
+}));
+$("example").onclick = () => {
+  const x = I18N[lang].ex, W = S.canvas.w, k = W / 1440;
+  const R = (v) => Math.round(v * k);
+  const items = [
+    { type: "rect", x: 0, y: 0, w: W, h: R(820), fill: "#0d0d0d" },
+    { type: "ellipse", x: R(880), y: R(140), w: R(460), h: R(460), fill: "#ff7a45" },
+    { type: "triangle", x: R(1040), y: R(470), w: R(260), h: R(230), fill: "#ffd23d", rot: 12 },
+    { type: "rect", x: R(760), y: R(520), w: R(180), h: R(180), fill: "#3d7bff", radius: R(24), rot: -8 },
+    { type: "text", x: R(96), y: R(36), w: R(400), h: R(40), text: "BF STUDIO", size: R(22), weight: 800, color: "#ffffff", font: "Unbounded", fill: "transparent" },
+    { type: "text", x: R(96), y: R(200), w: R(640), h: R(30), text: x.kicker, size: R(16), weight: 500, color: "#ff7a45", font: "JetBrains Mono", fill: "transparent" },
+    { type: "text", x: R(96), y: R(250), w: R(720), h: R(240), text: x.h1, size: R(96), weight: 800, color: "#ffffff", lh: 1.02, fill: "transparent" },
+    { type: "text", x: R(96), y: R(520), w: R(560), h: R(90), text: x.p, size: R(20), weight: 400, color: "#bdbdbd", lh: 1.45, fill: "transparent" },
+    { type: "button", x: R(96), y: R(640), w: R(250), h: R(64), text: x.btn, fill: "#ff7a45", color: "#0a0a0a", radius: R(32), size: R(18) },
+    { type: "button", x: R(370), y: R(640), w: R(200), h: R(64), text: x.btn2, fill: "transparent", stroke: "#ffffff", strokeW: 2, color: "#ffffff", radius: R(32), size: R(18) },
+  ];
+  for (const it of items) {
+    const base = make(it.type, { x: it.x, y: it.y });
+    S.els.push({ ...base, ...it, id: newId() });
+  }
+  S.sel = null;
+  render(); renderProps(); commit();
+  work.scrollTo({ top: 0, behavior: "smooth" });
+};
+
+/* ================= export PNG ================= */
+function roundRectPath(ctx, x, y, w, h, r) {
+  r = Math.max(0, Math.min(r, w / 2, h / 2));
+  ctx.beginPath(); ctx.moveTo(x + r, y);
+  ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath();
+}
+function wrapLines(ctx, text, maxW) {
+  const out = [];
+  for (const para of String(text).split("\n")) {
+    let line = "";
+    for (const word of para.split(" ")) {
+      const test = line ? line + " " + word : word;
+      if (ctx.measureText(test).width > maxW && line) { out.push(line); line = word; } else line = test;
+    }
+    out.push(line);
+  }
+  return out;
+}
+async function exportPng() {
+  await document.fonts.ready;
+  const { w, h, bg } = S.canvas, scale = 2;
+  const cv = document.createElement("canvas"); cv.width = w * scale; cv.height = h * scale;
+  const ctx = cv.getContext("2d"); ctx.scale(scale, scale);
+  ctx.fillStyle = bg; ctx.fillRect(0, 0, w, h);
+  const bitmaps = new Map();
+  for (const el of S.els) if (el.type === "image" && imageBlobs.has(el.src) && !bitmaps.has(el.src))
+    bitmaps.set(el.src, await createImageBitmap(imageBlobs.get(el.src)));
+
+  for (const el of S.els) {
+    ctx.save();
+    ctx.globalAlpha = el.opacity;
+    ctx.translate(el.x + el.w / 2, el.y + el.h / 2); ctx.rotate(rad(el.rot));
+    const x = -el.w / 2, y = -el.h / 2;
+    if (el.shadow) { ctx.shadowColor = "rgba(0,0,0,.28)"; ctx.shadowBlur = 32; ctx.shadowOffsetY = 12; }
+    const shape = () => {
+      if (el.type === "ellipse") { ctx.beginPath(); ctx.ellipse(0, 0, el.w / 2, el.h / 2, 0, 0, Math.PI * 2); }
+      else if (el.type === "triangle") { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(x + el.w, y + el.h); ctx.lineTo(x, y + el.h); ctx.closePath(); }
+      else roundRectPath(ctx, x, y, el.w, el.h, el.radius || 0);
+    };
+    shape();
+    if (el.type === "image") {
+      const bmp = bitmaps.get(el.src);
+      ctx.save(); ctx.clip(); ctx.shadowColor = "transparent";
+      if (bmp) {
+        const kx = el.w / bmp.width, ky = el.h / bmp.height;
+        const k = el.fit === "contain" ? Math.min(kx, ky) : Math.max(kx, ky);
+        const dw = bmp.width * k, dh = bmp.height * k;
+        ctx.drawImage(bmp, -dw / 2, -dh / 2, dw, dh);
+      }
+      ctx.restore();
+      if (el.shadow) { ctx.shadowColor = "transparent"; }
+    } else if (el.fill !== "transparent") { ctx.fillStyle = el.fill; ctx.fill(); }
+    ctx.shadowColor = "transparent";
+    if (el.strokeW) { shape(); ctx.lineWidth = el.strokeW; ctx.strokeStyle = el.stroke; ctx.lineJoin = "round";
+      if (el.type === "rect" || el.type === "image" || el.type === "text" || el.type === "button") {
+        roundRectPath(ctx, x + el.strokeW / 2, y + el.strokeW / 2, el.w - el.strokeW, el.h - el.strokeW, Math.max(0, (el.radius || 0) - el.strokeW / 2));
+      }
+      ctx.stroke(); }
+    if (el.type === "text" || el.type === "button") {
+      ctx.font = `${el.italic ? "italic " : ""}${el.weight} ${el.size}px ${fontCss(el.font)}`;
+      ctx.fillStyle = el.color; ctx.textBaseline = "middle";
+      const pad = el.type === "button" ? 16 : 0;
+      const lines = wrapLines(ctx, el.text, el.w - pad * 2);
+      const lh = el.size * el.lh;
+      let ty = el.type === "button" ? -((lines.length - 1) * lh) / 2 : y + lh / 2;
+      ctx.textAlign = el.align;
+      const tx = el.align === "left" ? x + pad : el.align === "right" ? x + el.w - pad : 0;
+      for (const line of lines) { ctx.fillText(line, tx, ty); ty += lh; }
+    }
+    ctx.restore();
+  }
+  const a = document.createElement("a");
+  a.download = "my-site-prototype.png";
+  a.href = cv.toDataURL("image/png");
+  a.click();
+  toast(T("exported"));
+}
+$("export").onclick = exportPng;
+
+/* ================= misc ================= */
+let toastTimer = null;
+function toast(msg) { const t = $("toast"); t.textContent = msg; t.classList.add("show"); clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove("show"), 2200); }
+
+/* ================= boot ================= */
+(async () => {
+  applyLang();
+  const restored = await load();
+  lastSnap = snapshot();
+  fitZoom();
+  render(); renderProps(); updateHistoryButtons();
+  if (!restored) $("saved").textContent = T("saved");
+})();
+window.addEventListener("resize", () => drawSelection());
+})();
+</script>
+</body>
+</html>
