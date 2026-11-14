@@ -12,13 +12,13 @@
     },
     {
       "id": "case2",
-      "title": "Сайт для малого бізнесу",
-      "description": "/UI-UX/LAYOUT/HTML/UKRtehnika",
+      "title": "Корпоративний сайт енергетичної компанії",
+      "description": "/UI-UX/FIGMA/HTML/Strum-Energy",
       "price": null,
       "currency": "",
-      "image": "УкрТехніка.jpg",
-      "imageFull": "УкрТехніка.png",
-      "url": "https://dotcomfast.github.io/UKRtehnika/"
+      "image": "strum.jpg",
+      "imageFull": "strum.jpg",
+      "url": "https://dotcomfast.github.io/Strum/index.html"
     },
     {
       "id": "case3",
@@ -39,11 +39,33 @@
       "image": "Редизайн сайту компанії.jpg",
       "imageFull": "Редизайн сайту компанії.png",
       "url": "https://dotcomfast.github.io/Le-Petit-V-u/"
+    },
+    {
+      "id": "case5",
+      "title": "Лендінг фінтех-стартапу",
+      "description": "/UI-UX/FIGMA/HTML/Korval",
+      "price": null,
+      "currency": "",
+      "image": "korval.jpg",
+      "imageFull": "korval.jpg",
+      "url": "https://dotcomfast.github.io/Korval.new/"
     }
   ],
   "services": [
-    { "id": "service1", "price": 300, "currency": "$" },
-    { "id": "service2", "price": 550, "currency": "$" },
-    { "id": "service3", "price": 100, "currency": "$" }
+    {
+      "id": "service1",
+      "price": 300,
+      "currency": "$"
+    },
+    {
+      "id": "service2",
+      "price": 550,
+      "currency": "$"
+    },
+    {
+      "id": "service3",
+      "price": 100,
+      "currency": "$"
+    }
   ]
 }

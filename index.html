@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bohdan Fastovets — UI/UX Designer</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta name="description" content="Bohdan Fastovets — UI/UX дизайнер. Створюю сайти, які перетворюють відвідувачів на клієнтів: лендінги, корпоративні сайти, UX-дослідження.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -435,7 +438,8 @@ html[data-theme="light"] .gradient-blob { opacity: 0.55; mix-blend-mode: multipl
 /* CASES */
 .cases__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(17.5rem, 1fr));
+  /* max 3 columns so 5–6 cases form even rows */
+  grid-template-columns: repeat(auto-fill, minmax(max(17.5rem, calc((100% - 3.5rem) / 3)), 1fr));
   gap: 1.75rem;
 }
 
@@ -997,7 +1001,7 @@ html[data-theme="light"] .gradient-blob { opacity: 0.55; mix-blend-mode: multipl
 
     <div class="contact__alt">
       <span data-i18n="contact_or">або</span>
-      <a href="https://www.instagram.com/bog.fastovets?stkn=N3BvZGk4ZnJ2eTN3&amp;utm_source=qr" target="_blank" rel="noopener" data-i18n="contact_instagram">
+      <a href="https://www.instagram.com/bohdan_fastovets/" target="_blank" rel="noopener" data-i18n="contact_instagram">
         Написати в Instagram
       </a>
     </div>
@@ -1028,12 +1032,14 @@ const translations = {
     case_cover_label: "Зображення кейсу",
     case1_title: "Лендінг для стартапу",
     case1_tags: "/UI-UX/FIGMA/ЛЕНДІНГ/",
-    case2_title: "Сайт для малого бізнесу",
-    case2_tags: "/UI-UX/ВЕРСТКА/HTML/",
+    case2_title: "Корпоративний сайт енергетичної компанії",
+    case2_tags: "/UI-UX/FIGMA/HTML/",
     case3_title: "UX сервісу бронювання",
     case3_tags: "/UX-ДОСЛІДЖЕННЯ/ПРОТОТИП/",
     case4_title: "Редизайн сайту компанії",
     case4_tags: "/UI-UX/РЕДИЗАЙН/FIGMA/",
+    case5_title: "Лендінг фінтех-стартапу",
+    case5_tags: "/UI-UX/FIGMA/HTML/",
     midcta_title: "Давайте просто поговоримо про ваш сайт",
     midcta_text: "Розкажіть, що плануєте — відповім з ідеями та орієнтовним бюджетом",
     midcta_cta: "Залишити заявку",
@@ -1078,12 +1084,14 @@ const translations = {
     case_cover_label: "Case image",
     case1_title: "Landing page for a startup",
     case1_tags: "/UI-UX/FIGMA/LANDING/",
-    case2_title: "Website for a small business",
-    case2_tags: "/UI-UX/MARKUP/HTML/",
+    case2_title: "Corporate website for an energy company",
+    case2_tags: "/UI-UX/FIGMA/HTML/",
     case3_title: "UX for a booking service",
     case3_tags: "/UX-RESEARCH/PROTOTYPE/",
     case4_title: "Company website redesign",
     case4_tags: "/UI-UX/REDESIGN/FIGMA/",
+    case5_title: "Fintech startup landing page",
+    case5_tags: "/UI-UX/FIGMA/HTML/",
     midcta_title: "Let's just talk about your website",
     midcta_text: "Leave a request and I'll get in touch to discuss ideas, budget and timeline.",
     midcta_cta: "Leave a request",
@@ -1128,12 +1136,14 @@ const translations = {
     case_cover_label: "Zdjęcie case study",
     case1_title: "Landing page dla startupu",
     case1_tags: "/UI-UX/FIGMA/LANDING/",
-    case2_title: "Strona dla małej firmy",
-    case2_tags: "/UI-UX/WERSTKA/HTML/",
+    case2_title: "Strona korporacyjna firmy energetycznej",
+    case2_tags: "/UI-UX/FIGMA/HTML/",
     case3_title: "UX serwisu rezerwacji",
     case3_tags: "/BADANIA-UX/PROTOTYP/",
     case4_title: "Redesign strony firmowej",
     case4_tags: "/UI-UX/REDESIGN/FIGMA/",
+    case5_title: "Landing page startupu fintech",
+    case5_tags: "/UI-UX/FIGMA/HTML/",
     midcta_title: "Porozmawiajmy o Twojej stronie",
     midcta_text: "Zostaw zgłoszenie, a skontaktuję się, aby omówić pomysły, budżet i terminy.",
     midcta_cta: "Zostaw zgłoszenie",
