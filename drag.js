@@ -1,5 +1,5 @@
 /*
- * "Конструктор" mode: on desktop/laptop visitors can drag photos, buttons and
+ * "Move elements" mode: on desktop/laptop visitors can drag photos, buttons and
  * whole blocks around the page. The header and all text stay in place.
  * Off by default; toggled by a floating button. Nothing is saved — reload or
  * "Reset" puts everything back.
@@ -11,11 +11,11 @@
   const desktop = window.matchMedia("(min-width: 1024px) and (pointer: fine)");
 
   const TEXT = {
-    uk: { on: "Режим конструктора", off: "Вийти з конструктора", reset: "Скинути",
+    uk: { on: "✥ Перемістити елементи", off: "Завершити переміщення", reset: "Скинути",
           hint: "Тягни фото й кнопки · Shift — цілий блок · Esc — вийти" },
-    en: { on: "Playground mode", off: "Exit playground", reset: "Reset",
+    en: { on: "✥ Move elements", off: "Done moving", reset: "Reset",
           hint: "Drag photos & buttons · Shift — whole block · Esc — exit" },
-    pl: { on: "Tryb konstruktora", off: "Wyjdź z konstruktora", reset: "Resetuj",
+    pl: { on: "✥ Przesuń elementy", off: "Zakończ przesuwanie", reset: "Resetuj",
           hint: "Przeciągaj zdjęcia i przyciski · Shift — cały blok · Esc — wyjście" },
   };
   const t = () => TEXT[document.documentElement.lang] || TEXT.uk;
